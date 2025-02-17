@@ -1,5 +1,7 @@
 package com.filemanager.services.renaming;
 
+import com.filemanager.services.renaming.strategies.RenameByDate;
+
 public class RenameStrategyFactory {
 
     public static RenameStrategy getStrategy(StrategyType type) {

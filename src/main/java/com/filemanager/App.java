@@ -18,8 +18,9 @@ public class App {
 
         App app = new App(fileProcessor);
 
-        ProcessingTask processingTask = app.fileProcessor.run("/home/kevin/Downloads/test", StrategyType.BY_DATE);
+        // TODO: implement new strategies.
+        ProcessingTask ProcessingTask = app.fileProcessor.run("/home/kevin/Downloads/test", StrategyType.BY_DATE);
 
-        processingTask.results();
+        ProcessingTask.results();
     }
 }

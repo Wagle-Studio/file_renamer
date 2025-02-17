@@ -9,9 +9,8 @@ Je débute en Java et ce projet me sert de support pour explorer le langage et s
 ## Présentation
 
 Il s'agit d'un script permettant de renommer des fichiers selon différentes stratégies (par date, format personnalisé, conversion de casse, etc.).  
-L'objectif n'est pas seulement de créer un outil fonctionnel, mais aussi de structurer le code de manière évolutive et maintenable.
 
-### Objectifs
+L'objectif n'est pas seulement de créer un outil fonctionnel, mais aussi de structurer le code de manière évolutive et maintenable.
 
 **☕ Java & Maven** : J'ai structuré ce projet avec Maven pour mieux gérer les dépendances et organiser mon code de manière modulaire.
 
@@ -25,7 +24,7 @@ L'objectif n'est pas seulement de créer un outil fonctionnel, mais aussi de str
 
 ```sh
 git clone git@github.com:Wagle-Studio/rename_picture_script.git
-cd file-rename_picture_script
+cd rename_picture_script
 ```
 
 ### Compiler et exécuter

@@ -1,12 +1,13 @@
 package com.filemanager.services;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.ProcessingTask;
+import com.filemanager.models.enums.FileStatus;
+import com.filemanager.models.enums.TaskStatus;
 import com.filemanager.services.renaming.RenameStrategy;
 import com.filemanager.services.renaming.RenameStrategyFactory;
 import com.filemanager.services.renaming.StrategyType;
@@ -16,31 +17,34 @@ public class DefaultFileProcessor implements FileProcessor {
 
     @Override
     public ProcessingTask run(String folderPath, StrategyType strategyType) {
+        Optional<File[]> folderContent = FileUtils.getFolderContent(folderPath);
         RenameStrategy strategy = RenameStrategyFactory.getStrategy(strategyType);
 
-        Optional<File[]> folderContent = FileUtils.getFolderContent(folderPath);
-
         if (folderContent.isEmpty()) {
-            return new ProcessingTask("folder is empty");
+            return new ProcessingTask(folderPath, strategy, "The folder is empty.");
         }
 
-        List<ProcessingFile> processedFiles = this.processFiles(folderContent.get(), strategy);
-        List<ProcessingFile> processibleFiles = processedFiles.stream().filter(ProcessingFile::isProcessable).toList();
-        List<ProcessingFile> unprocessibleFiles = processedFiles.stream().filter(file -> !file.isProcessable()).toList();
+        List<ProcessingFile> processedFiles = FileUtils.ProcessingFiles(folderContent.get());
 
-        ProcessingTask processingTask = new ProcessingTask(folderPath, strategy, folderContent.get(), processibleFiles, unprocessibleFiles);
-
-        processingTask.setSuccess("succes");
-        return processingTask;
-    }
-
-    private List<ProcessingFile> processFiles(File[] files, RenameStrategy strategy) {
-        List<ProcessingFile> processedFiles = new ArrayList<>();
-
-        for (File file : files) {
-            processedFiles.add(new ProcessingFile(strategy.validateFile(file), file));
+        if (processedFiles.isEmpty()) {
+            return new ProcessingTask(folderPath, strategy, "No files to process.");
         }
 
-        return processedFiles;
+        processedFiles.forEach(file -> {
+            if (!strategy.validateFileMetadata(file.getMetadata())) {
+                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match strategy requirements.");
+            }
+        });
+
+        List<ProcessingFile> processibleFiles = FileUtils.getProcessableFiles(processedFiles);
+        List<ProcessingFile> unprocessibleFiles = FileUtils.getUnprocessableFiles(processedFiles);
+
+        ProcessingTask ProcessingTask = new ProcessingTask(folderPath, strategy, folderContent.get(), processibleFiles, unprocessibleFiles);
+
+        ProcessingTask.getStrategy().execute(ProcessingTask.getProcessibleFiles());
+
+        ProcessingTask.setStatus(TaskStatus.PROCESSED, "Task ended with success.");
+
+        return ProcessingTask;
     }
 }

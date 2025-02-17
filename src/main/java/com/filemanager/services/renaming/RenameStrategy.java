@@ -1,12 +1,13 @@
 package com.filemanager.services.renaming;
 
-import java.io.File;
+import java.util.List;
 
+import com.drew.metadata.Metadata;
 import com.filemanager.models.ProcessingFile;
 
 public interface RenameStrategy {
 
-    public Boolean validateFile(File file);
+    public Boolean validateFileMetadata(Metadata metadata);
 
-    public String rename(ProcessingFile file);
+    public void execute(List<ProcessingFile> files);
 }
