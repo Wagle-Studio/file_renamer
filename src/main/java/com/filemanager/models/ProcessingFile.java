@@ -7,31 +7,25 @@ import com.filemanager.models.enums.FileStatus;
 
 public class ProcessingFile {
 
-    final private File file;
+    private File file;
     final private File parentDir;
     final private String originalName;
     private FileStatus status = FileStatus.UNDEFINED;
     private String statusMessage;
     private Metadata metadata;
 
-    public ProcessingFile(File file, String message) {
+    public ProcessingFile(File file) {
         this.file = file;
         this.parentDir = file.getParentFile();
         this.originalName = file.getName();
-        this.status = FileStatus.UNPROCESSABLE;
-        this.statusMessage = message;
-    }
-
-    public ProcessingFile(File file, Metadata metadata) {
-        this.file = file;
-        this.parentDir = file.getParentFile();
-        this.originalName = file.getName();
-        this.status = FileStatus.PROCESSABLE;
-        this.metadata = metadata;
     }
 
     public File getFile() {
         return this.file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
     }
 
     public File getParentDir() {
@@ -46,16 +40,24 @@ public class ProcessingFile {
         return this.status;
     }
 
-    public String getStatusMessage() {
-        return this.statusMessage;
-    }
-
     public void setStatus(FileStatus status, String message) {
         this.status = status;
         this.statusMessage = message;
     }
 
+    public String getStatusMessage() {
+        return this.statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
     public Metadata getMetadata() {
         return this.metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
     }
 }

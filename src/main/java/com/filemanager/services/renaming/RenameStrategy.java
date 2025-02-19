@@ -9,5 +9,9 @@ public interface RenameStrategy {
 
     public Boolean validateFileMetadata(Metadata metadata);
 
-    public void execute(List<ProcessingFile> files);
+    default List<RenameStrategy> getPreprocess() {
+        return List.of();
+    }
+
+    public List<ProcessingFile> execute(List<ProcessingFile> files, boolean prePreprocess);
 }

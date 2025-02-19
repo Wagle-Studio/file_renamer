@@ -1,7 +1,6 @@
 package com.filemanager;
 
 import com.filemanager.core.Injector;
-import com.filemanager.models.ProcessingTask;
 import com.filemanager.services.FileProcessor;
 import com.filemanager.services.renaming.StrategyType;
 
@@ -18,9 +17,6 @@ public class App {
 
         App app = new App(fileProcessor);
 
-        // TODO: implement new strategies.
-        ProcessingTask ProcessingTask = app.fileProcessor.run("/home/kevin/Downloads/test", StrategyType.BY_DATE);
-
-        ProcessingTask.results();
+        app.fileProcessor.run("/home/kevin/Documents/2013 Photos/2013 Barcarès", StrategyType.BY_DATE);
     }
 }

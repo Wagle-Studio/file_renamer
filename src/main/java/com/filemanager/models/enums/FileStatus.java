@@ -4,5 +4,6 @@ public enum FileStatus {
     UNDEFINED,
     UNPROCESSABLE,
     PROCESSABLE,
+    PROCESSING,
     PROCESSED
 }
