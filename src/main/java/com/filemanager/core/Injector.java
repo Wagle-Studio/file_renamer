@@ -7,9 +7,11 @@ public class Injector {
 
     private static final Injector instance = new Injector();
 
+    private final ViewManager viewManager;
     private final FileProcessor fileProcessor;
 
     private Injector() {
+        this.viewManager = new ViewManager();
         this.fileProcessor = new DefaultFileProcessor();
     }
 
@@ -17,7 +19,11 @@ public class Injector {
         return instance;
     }
 
+    public ViewManager getViewManager() {
+        return this.viewManager;
+    }
+
     public FileProcessor getFileProcessor() {
-        return fileProcessor;
+        return this.fileProcessor;
     }
 }
