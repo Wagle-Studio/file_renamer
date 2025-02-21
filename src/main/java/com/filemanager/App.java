@@ -1,22 +1,23 @@
 package com.filemanager;
 
 import com.filemanager.core.Injector;
-import com.filemanager.services.FileProcessor;
-import com.filemanager.services.renaming.StrategyType;
+import com.filemanager.core.ViewManager;
+import com.filemanager.gui.controllers.MainController;
 
-public class App {
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-    private final FileProcessor fileProcessor;
+public final class App extends Application {
 
-    public App(FileProcessor fileProcessor) {
-        this.fileProcessor = fileProcessor;
-    }
+    private final ViewManager screenManager = Injector.getInstance().getViewManager();
 
     public static void main(String[] args) {
-        FileProcessor fileProcessor = Injector.getInstance().getFileProcessor();
+        launch(args);
+    }
 
-        App app = new App(fileProcessor);
-
-        app.fileProcessor.run("/home/kevin/Documents/2013 Photos", StrategyType.BY_DATE);
+    @Override
+    public void start(Stage primaryStage) {
+        screenManager.setStage(primaryStage);
+        new MainController();
     }
 }
