@@ -59,6 +59,8 @@ class RenameRandomly implements RenameStrategy {
             }
         });
 
+        System.out.println("✅ RenameRandomly final file count: " + files.size());
+
         return files;
     }
 }

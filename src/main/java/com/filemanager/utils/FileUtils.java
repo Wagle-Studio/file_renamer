@@ -83,11 +83,10 @@ public class FileUtils {
 
     public static List<ProcessingFile> applyStrategyFileValidation(List<ProcessingFile> files, RenameStrategy strategy) {
         files.forEach(file -> {
-            if (!strategy.validateFileMetadata(file.getMetadata())) {
+            if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileMetadata(file.getMetadata())) {
                 file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match strategy requirements.");
             }
         });
-
         return files;
     }
 

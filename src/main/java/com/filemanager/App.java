@@ -17,6 +17,6 @@ public class App {
 
         App app = new App(fileProcessor);
 
-        app.fileProcessor.run("/home/kevin/Documents/2013 Photos/2013 Barcarès", StrategyType.BY_DATE);
+        app.fileProcessor.run("/home/kevin/Documents/2013 Photos", StrategyType.BY_DATE);
     }
 }

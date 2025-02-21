@@ -5,59 +5,88 @@ import java.io.File;
 import com.drew.metadata.Metadata;
 import com.filemanager.models.enums.FileStatus;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 public class ProcessingFile {
 
-    private File file;
-    final private File parentDir;
-    final private String originalName;
-    private FileStatus status = FileStatus.UNDEFINED;
-    private String statusMessage;
-    private Metadata metadata;
+    final private ObjectProperty<File> file = new SimpleObjectProperty<>();
+    final private ObjectProperty<File> parentDir = new SimpleObjectProperty<>();
+    final private StringProperty originalName = new SimpleStringProperty();
+    final private ObjectProperty<FileStatus> status = new SimpleObjectProperty<>(FileStatus.UNDEFINED);
+    final private StringProperty statusMessage = new SimpleStringProperty();
+    final private ObjectProperty<Metadata> metadata = new SimpleObjectProperty<>();
 
     public ProcessingFile(File file) {
-        this.file = file;
-        this.parentDir = file.getParentFile();
-        this.originalName = file.getName();
+        this.file.set(file);
+        this.parentDir.set(file.getParentFile());
+        this.originalName.set(file.getName());
     }
 
-    public File getFile() {
+    public ObjectProperty<File> getFileProperty() {
         return this.file;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public File getFile() {
+        return this.file.get();
     }
 
-    public File getParentDir() {
+    public void setFile(File file) {
+        this.file.set(file);
+    }
+
+    public ObjectProperty<File> getParentDirProperty() {
         return this.parentDir;
     }
 
-    public String getOriginalName() {
+    public File getParentDir() {
+        return this.parentDir.get();
+    }
+
+    public StringProperty getOriginalNameProperty() {
         return this.originalName;
     }
 
-    public FileStatus getStatus() {
+    public String getOriginalName() {
+        return this.originalName.get();
+    }
+
+    public ObjectProperty<FileStatus> getStatusProperty() {
         return this.status;
     }
 
-    public void setStatus(FileStatus status, String message) {
-        this.status = status;
-        this.statusMessage = message;
+    public FileStatus getStatus() {
+        return this.status.get();
     }
 
-    public String getStatusMessage() {
+    public void setStatus(FileStatus status, String message) {
+        this.status.set(status);
+        this.statusMessage.set(message);
+    }
+
+    public StringProperty getStatusMessageProperty() {
         return this.statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
+    public String getStatusMessage() {
+        return this.statusMessage.get();
     }
 
-    public Metadata getMetadata() {
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage.set(statusMessage);
+    }
+
+    public ObjectProperty<Metadata> getMetadataProperty() {
         return this.metadata;
     }
 
+    public Metadata getMetadata() {
+        return this.metadata.get();
+    }
+
     public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
+        this.metadata.set(metadata);
     }
 }
