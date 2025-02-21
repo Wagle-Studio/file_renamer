@@ -66,7 +66,7 @@ public class DefaultFileProcessor implements FileProcessor {
 
             // If no processable files remain after preprocessing, stop processing.
             if (task.getProcessibleFiles().isEmpty()) {
-                task.setStatus(TaskStatus.ERROR, "No processable files remaining.");
+                task.setStatus(TaskStatus.ERROR, "No processable files remaining for strategy : " + preStrategy.getClass().getSimpleName());
                 task.results();
                 return;
             }
@@ -77,7 +77,7 @@ public class DefaultFileProcessor implements FileProcessor {
 
         // Final check before executing the main renaming strategy.
         if (task.getProcessibleFiles().isEmpty()) {
-            task.setStatus(TaskStatus.ERROR, "No processable files remaining.");
+            task.setStatus(TaskStatus.ERROR, "No processable files remaining for strategy : " + task.getStrategy().getClass().getSimpleName());
             task.results();
             return;
         }

@@ -6,63 +6,96 @@ import com.filemanager.models.enums.FileStatus;
 import com.filemanager.models.enums.TaskStatus;
 import com.filemanager.services.renaming.RenameStrategy;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class ProcessingTask {
 
-    final private String folderPath;
-    final private RenameStrategy strategy;
-    private TaskStatus status = TaskStatus.PROCESSING;
-    private String statusMessage;
-    private List<ProcessingFile> processibleFiles;
-    private List<ProcessingFile> unprocessibleFiles;
+    final private StringProperty folderPath = new SimpleStringProperty();
+    final private ObjectProperty<RenameStrategy> strategy = new SimpleObjectProperty<>();
+    final private ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.PROCESSING);
+    final private StringProperty statusMessage = new SimpleStringProperty();
+    final private ListProperty<ProcessingFile> processibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
+    final private ListProperty<ProcessingFile> unprocessibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     public ProcessingTask(String folderPath, RenameStrategy strategy) {
-        this.folderPath = folderPath;
-        this.strategy = strategy;
+        this.folderPath.set(folderPath);
+        this.strategy.set(strategy);
     }
 
-    public String getFolderPath() {
+    public StringProperty getFolderPathProperty() {
         return this.folderPath;
     }
 
-    public RenameStrategy getStrategy() {
+    public String getFolderPath() {
+        return this.folderPath.get();
+    }
+
+    public ObjectProperty<RenameStrategy> getStrategyProperty() {
         return this.strategy;
     }
 
-    public TaskStatus getStatus() {
+    public RenameStrategy getStrategy() {
+        return this.strategy.get();
+    }
+
+    public ObjectProperty<TaskStatus> getStatusProperty() {
         return this.status;
     }
 
-    public void setStatus(TaskStatus status, String message) {
-        this.status = status;
-        this.statusMessage = message;
+    public TaskStatus getStatus() {
+        return this.status.get();
     }
 
-    public String getStatusMessage() {
+    public void setStatus(TaskStatus status, String message) {
+        this.status.set(status);
+        this.statusMessage.set(message);
+    }
+
+    public StringProperty getStatusMessageProperty() {
         return this.statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
+    public String getStatusMessage() {
+        return this.statusMessage.get();
     }
 
-    public List<ProcessingFile> getProcessibleFiles() {
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage.set(statusMessage);
+    }
+
+    public ListProperty<ProcessingFile> getProcessibleFilesProperty() {
         return this.processibleFiles;
     }
 
-    public void setProcessibleFiles(List<ProcessingFile> processibleFiles) {
-        this.processibleFiles = processibleFiles;
+    public ObservableList<ProcessingFile> getProcessibleFiles() {
+        return this.processibleFiles.get();
     }
 
-    public List<ProcessingFile> getUnprocessibleFiles() {
+    public void setProcessibleFiles(List<ProcessingFile> processibleFiles) {
+        this.processibleFiles.set(FXCollections.observableArrayList(processibleFiles));
+    }
+
+    public ListProperty<ProcessingFile> getUnprocessibleFilesProperty() {
         return this.unprocessibleFiles;
     }
 
+    public ObservableList<ProcessingFile> getUnprocessibleFiles() {
+        return this.unprocessibleFiles.get();
+    }
+
     public void setUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
-        this.unprocessibleFiles = unprocessibleFiles;
+        this.unprocessibleFiles.set(FXCollections.observableArrayList(unprocessibleFiles));
     }
 
     public void addUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
-        unprocessibleFiles.forEach(file -> this.unprocessibleFiles.add(file));
+        this.unprocessibleFiles.addAll(unprocessibleFiles);
     }
 
     public void results() {
@@ -70,15 +103,17 @@ public class ProcessingTask {
                 .filter(file -> file.getStatus() == FileStatus.PROCESSED)
                 .toList();
 
-        List<ProcessingFile> failedFiles = processibleFiles.stream()
+        List<ProcessingFile> failedFiles = FXCollections.observableArrayList();
+        failedFiles.addAll(processibleFiles.stream()
                 .filter(file -> file.getStatus() == FileStatus.UNPROCESSABLE)
-                .toList();
+                .toList());
+        failedFiles.addAll(unprocessibleFiles);
 
-        System.out.println("\n📋 Dossier   : " + folderPath);
-        System.out.println("📋 Stratégie : " + strategy.getClass().getSimpleName());
-        System.out.println("📋 Status    : " + status + " - message : " + statusMessage);
+        System.out.println("\n📋 Dossier   : " + folderPath.get());
+        System.out.println("📋 Stratégie : " + strategy.get().getClass().getSimpleName());
+        System.out.println("📋 Status    : " + status.get() + " - message : " + statusMessage.get());
 
-        System.out.println("\n📁 Total fichiers        : " + renamedFiles.size());
+        System.out.println("\n📁 Total fichiers        : " + (renamedFiles.size() + failedFiles.size()));
         System.out.println("📄 Fichiers renommés     : " + renamedFiles.size());
         System.out.println("📄 Fichiers non renommés : " + failedFiles.size());
 
