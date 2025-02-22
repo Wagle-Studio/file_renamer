@@ -1,4 +1,4 @@
-package com.filemanager.services.renaming;
+package com.filemanager.services.renaming.enums;
 
 public enum StrategyType {
     RANDOM,

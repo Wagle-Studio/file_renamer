@@ -17,6 +17,7 @@ import com.drew.metadata.file.FileTypeDirectory;
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.enums.FileStatus;
 import com.filemanager.services.renaming.RenameStrategy;
+import com.filemanager.services.renaming.enums.FileExtension;
 
 public class FileUtils {
 
@@ -40,15 +41,6 @@ public class FileUtils {
                 continue;
             }
 
-            Optional<Metadata> fileMetadata = FileUtils.getFileMetadata(file);
-
-            if (fileMetadata.isEmpty()) {
-                processingFile.setStatus(FileStatus.UNPROCESSABLE, "Metadata are empty");
-                processedFiles.add(processingFile);
-                continue;
-            }
-
-            processingFile.setMetadata(fileMetadata.get());
             processingFile.setStatus(FileStatus.PROCESSABLE, "");
             processedFiles.add(processingFile);
         }
@@ -65,26 +57,55 @@ public class FileUtils {
         }
     }
 
-    public static Optional<String> getFileExtension(Metadata metadata) {
-        FileTypeDirectory fileTypeDirectory = metadata.getFirstDirectoryOfType(FileTypeDirectory.class);
+    public static Optional<FileExtension> getFileExtension(File file) {
+        if (file == null || !file.isFile()) {
+            return Optional.empty();
+        }
 
-        return (fileTypeDirectory != null)
-                ? Optional.of(fileTypeDirectory.getString(FileTypeDirectory.TAG_DETECTED_FILE_TYPE_NAME))
-                : Optional.empty();
+        String fileName = file.getName();
+        int lastDotIndex = fileName.lastIndexOf(".");
+
+        if (lastDotIndex <= 0 || lastDotIndex == fileName.length() - 1) {
+            return Optional.empty();
+        }
+
+        String extension = fileName.substring(lastDotIndex + 1).toUpperCase();
+
+        return FileExtension.fromString(extension);
     }
 
-    public static Optional<String> getFileOriginalDate(Metadata metadata) {
+    public static Optional<FileExtension> getFileExtensionByMetadata(Metadata metadata) {
+        FileTypeDirectory fileTypeDirectory = metadata.getFirstDirectoryOfType(FileTypeDirectory.class);
+
+        if (fileTypeDirectory == null) {
+            return Optional.empty();
+        }
+
+        String extension = fileTypeDirectory.getString(FileTypeDirectory.TAG_DETECTED_FILE_TYPE_NAME);
+
+        return FileExtension.fromString(extension);
+    }
+
+    public static Optional<String> getFileOriginalDateByMetaData(Metadata metadata) {
         ExifSubIFDDirectory exifDirectory = metadata.getFirstDirectoryOfType(ExifSubIFDDirectory.class);
 
-        return (exifDirectory != null && exifDirectory.getDateOriginal() instanceof Date)
-                ? Optional.of(FileUtils.formatDate(exifDirectory.getDateOriginal()))
-                : Optional.empty();
+        if (exifDirectory == null) {
+            return Optional.empty();
+        }
+
+        Date originalDate = exifDirectory.getDateOriginal();
+
+        if (!(originalDate instanceof Date)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(FileUtils.formatDate(originalDate));
     }
 
     public static List<ProcessingFile> applyStrategyFileValidation(List<ProcessingFile> files, RenameStrategy strategy) {
         files.forEach(file -> {
-            if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileMetadata(file.getMetadata())) {
-                String fileStatus = "Metadata doesn't match requirements for strategy : " + strategy.getDisplayName().toLowerCase();
+            if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileRequirements(file)) {
+                String fileStatus = "File doesn't match requirements for strategy : " + strategy.getDisplayName().toLowerCase();
                 file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
             }
         });

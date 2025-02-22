@@ -1,6 +1,6 @@
 package com.filemanager.gui.models;
 
-import com.filemanager.services.renaming.StrategyType;
+import com.filemanager.services.renaming.enums.StrategyType;
 
 public final class StrategyChoice {
 

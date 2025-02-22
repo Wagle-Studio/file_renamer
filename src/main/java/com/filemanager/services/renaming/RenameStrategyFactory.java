@@ -1,5 +1,6 @@
 package com.filemanager.services.renaming;
 
+import com.filemanager.services.renaming.enums.StrategyType;
 import com.filemanager.services.renaming.strategies.RenameByDate;
 import com.filemanager.services.renaming.strategies.RenameRandomly;
 

@@ -9,6 +9,7 @@ import com.drew.metadata.Metadata;
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.enums.FileStatus;
 import com.filemanager.services.renaming.RenameStrategy;
+import com.filemanager.services.renaming.enums.FileExtension;
 import com.filemanager.utils.FileUtils;
 
 public class RenameRandomly implements RenameStrategy {
@@ -21,42 +22,49 @@ public class RenameRandomly implements RenameStrategy {
     }
 
     @Override
-    public Boolean validateFileMetadata(Metadata metadata) {
-        if (metadata == null) {
+    public Boolean validateFileRequirements(ProcessingFile file) {
+        File parentDir = file.getParentDir();
+
+        if (parentDir == null) {
             return false;
         }
 
-        Optional<String> extension = FileUtils.getFileExtension(metadata);
+        Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
 
-        return !extension.isEmpty();
+        if (extension.isPresent()) {
+            return true;
+        }
+
+        Optional<Metadata> metadata = FileUtils.getFileMetadata(file.getFile());
+
+        if (metadata.isEmpty()) {
+            return false;
+        }
+
+        return FileUtils.getFileExtensionByMetadata(metadata.get()).isPresent();
     }
 
     @Override
     public List<ProcessingFile> execute(List<ProcessingFile> files, boolean prePreprocess) {
         files.forEach(file -> {
-            Optional<String> rawExtension = FileUtils.getFileExtension(file.getMetadata());
+            Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
 
-            if (rawExtension.isEmpty()) {
-                String fileStatus = "Metadata doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
-                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
-                return;
+            if (extension.isEmpty()) {
+                extension = FileUtils.getFileMetadata(file.getFile()).flatMap(FileUtils::getFileExtensionByMetadata);
+
+                if (extension.isEmpty()) {
+                    String fileStatus = "File doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
+                    file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
+                    return;
+                }
             }
 
-            File parentDir = file.getParentDir();
-
-            if (parentDir == null) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Parent directory is invalid");
-                return;
-            }
-
-            String extension = rawExtension.get().toLowerCase();
-
-            String newFileName = UUID.randomUUID().toString().replace("-", "") + "." + extension;
-            File newFile = new File(parentDir, newFileName);
+            String newFileName = UUID.randomUUID().toString().replace("-", "") + "." + extension.get().name().toLowerCase();
+            File newFile = new File(file.getParentDir(), newFileName);
 
             while (newFile.exists()) {
-                newFileName = UUID.randomUUID().toString().replace("-", "") + "." + extension;
-                newFile = new File(parentDir, newFileName);
+                newFileName = UUID.randomUUID().toString().replace("-", "") + "." + extension.get().name().toLowerCase();
+                newFile = new File(file.getParentDir(), newFileName);
             }
 
             if (file.getFile().renameTo(newFile)) {

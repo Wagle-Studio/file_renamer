@@ -8,7 +8,7 @@ import com.filemanager.gui.models.StrategyChoice;
 import com.filemanager.models.ProcessingTask;
 import com.filemanager.services.renaming.RenameStrategy;
 import com.filemanager.services.renaming.RenameStrategyFactory;
-import com.filemanager.services.renaming.StrategyType;
+import com.filemanager.services.renaming.enums.StrategyType;
 
 import javafx.collections.FXCollections;
 import javafx.stage.DirectoryChooser;

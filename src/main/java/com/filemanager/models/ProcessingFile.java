@@ -2,7 +2,6 @@ package com.filemanager.models;
 
 import java.io.File;
 
-import com.drew.metadata.Metadata;
 import com.filemanager.models.enums.FileStatus;
 
 import javafx.beans.property.ObjectProperty;
@@ -18,7 +17,6 @@ public class ProcessingFile {
     final private StringProperty currentName = new SimpleStringProperty();
     final private ObjectProperty<FileStatus> status = new SimpleObjectProperty<>(FileStatus.UNDEFINED);
     final private StringProperty statusMessage = new SimpleStringProperty();
-    final private ObjectProperty<Metadata> metadata = new SimpleObjectProperty<>();
 
     public ProcessingFile(File file) {
         this.file.set(file);
@@ -86,17 +84,5 @@ public class ProcessingFile {
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage.set(statusMessage);
-    }
-
-    public ObjectProperty<Metadata> getMetadataProperty() {
-        return this.metadata;
-    }
-
-    public Metadata getMetadata() {
-        return this.metadata.get();
-    }
-
-    public void setMetadata(Metadata metadata) {
-        this.metadata.set(metadata);
     }
 }

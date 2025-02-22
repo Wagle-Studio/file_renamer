@@ -31,27 +31,25 @@ public class DefaultFileProcessor implements FileProcessor {
 
         List<ProcessingFile> processingFiles = FileUtils.applyStrategyFileValidation(processedFiles, task.getStrategy());
 
-        if (!task.getStrategy().getPreprocess().isEmpty()) {
-            for (RenameStrategy preStrategy : task.getStrategy().getPreprocess()) {
-                processingFiles = FileUtils.applyStrategyFileValidation(processedFiles, preStrategy);
-            }
+        for (RenameStrategy preStrategy : task.getStrategy().getStrategyPreprocess()) {
+            processingFiles = FileUtils.applyStrategyFileValidation(processingFiles, preStrategy);
+        }
+
+        if (processingFiles.isEmpty()) {
+            task.setStatus(TaskStatus.ERROR, "No processable files");
+            return;
         }
 
         task.setProcessibleFiles(FileUtils.getProcessableFiles(processingFiles));
         task.setUnprocessibleFiles(FileUtils.getUnprocessableFiles(processingFiles));
-
-        if (task.getProcessibleFiles().isEmpty()) {
-            task.setStatus(TaskStatus.ERROR, "No processable files");
-            return;
-        }
 
         task.setStatus(TaskStatus.ANALYSED, "Ready to process files");
     }
 
     @Override
     public void run(ProcessingTask task) {
-        if (!task.getStrategy().getPreprocess().isEmpty()) {
-            for (RenameStrategy preStrategy : task.getStrategy().getPreprocess()) {
+        if (!task.getStrategy().getStrategyPreprocess().isEmpty()) {
+            for (RenameStrategy preStrategy : task.getStrategy().getStrategyPreprocess()) {
                 List<ProcessingFile> processingFiles = preStrategy.execute(task.getProcessibleFiles(), true);
                 task.setProcessibleFiles(FileUtils.getProcessableFiles(processingFiles));
             }
