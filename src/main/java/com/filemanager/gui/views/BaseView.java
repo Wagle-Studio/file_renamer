@@ -11,16 +11,17 @@ public abstract class BaseView implements View {
 
     private static final String BASE_PATH = "/fxml/";
     private final String title;
-    private final Scene scene;
+    private Scene scene;
 
     public BaseView(String fxmlFile, String title) {
         this.title = title;
-        this.scene = loadFXML(fxmlFile);
+        this.loadFXML(fxmlFile);
     }
 
-    private Scene loadFXML(String fxmlFile) {
+    private void loadFXML(String fxmlFile) {
         try {
             URL fxmlLocation = getClass().getResource(BASE_PATH + fxmlFile);
+
             if (fxmlLocation == null) {
                 throw new RuntimeException("FXML file not found: " + BASE_PATH + fxmlFile);
             }
@@ -28,7 +29,7 @@ public abstract class BaseView implements View {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             loader.setController(this);
             Parent root = loader.load();
-            return new Scene(root);
+            this.scene = new Scene(root);
         } catch (IOException e) {
             throw new RuntimeException("Error loading FXML: " + BASE_PATH + fxmlFile, e);
         }
@@ -45,5 +46,5 @@ public abstract class BaseView implements View {
     }
 
     @Override
-    public abstract void initialize();
+    public abstract void build();
 }

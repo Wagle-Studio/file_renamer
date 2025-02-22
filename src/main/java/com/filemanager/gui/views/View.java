@@ -8,5 +8,5 @@ public interface View {
 
     public String getTitle();
 
-    public abstract void initialize();
+    public abstract void build();
 }
