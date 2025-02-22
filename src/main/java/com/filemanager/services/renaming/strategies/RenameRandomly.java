@@ -11,7 +11,7 @@ import com.filemanager.models.enums.FileStatus;
 import com.filemanager.services.renaming.RenameStrategy;
 import com.filemanager.utils.FileUtils;
 
-class RenameRandomly implements RenameStrategy {
+public class RenameRandomly implements RenameStrategy {
 
     private final String displayName = "Rename randomly";
 

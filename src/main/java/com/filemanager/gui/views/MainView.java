@@ -22,6 +22,8 @@ public final class MainView extends BaseView {
     @FXML
     private ChoiceBox<StrategyChoice> choiceBoxSelectStrategy;
     @FXML
+    private Label labelTaskStrategy;
+    @FXML
     private Button buttonStartAnalyse;
 
     public MainView(MainInteractor interactor) {
@@ -40,7 +42,6 @@ public final class MainView extends BaseView {
         Window window = buttonSelectFolder.getScene().getWindow();
         this.interactor.handleFileSearch(window);
         labelSelectedFolderPath.setVisible(true);
-        choiceBoxSelectStrategy.setVisible(true);
         labelSelectedFolderPath.setText(this.interactor.getSelectedFolder());
     }
 
@@ -49,7 +50,9 @@ public final class MainView extends BaseView {
 
         choiceBoxSelectStrategy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             this.interactor.handleStrategyChoice(newValue);
-            buttonStartAnalyse.setVisible(true);
+            buttonStartAnalyse.setDisable(false);
+            labelTaskStrategy.setVisible(true);
+            labelTaskStrategy.setText(this.interactor.getSelectedStrategy());
         });
     }
 
