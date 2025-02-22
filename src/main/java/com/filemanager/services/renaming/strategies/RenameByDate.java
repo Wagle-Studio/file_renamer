@@ -42,11 +42,6 @@ public class RenameByDate implements RenameStrategy {
         }
 
         Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
-
-        if (extension.isEmpty()) {
-            extension = FileUtils.getFileExtensionByMetadata(metadata.get());
-        }
-
         Optional<String> originalDate = FileUtils.getFileOriginalDateByMetaData(metadata.get());
 
         return extension.isPresent() && originalDate.isPresent();
@@ -76,13 +71,9 @@ public class RenameByDate implements RenameStrategy {
             Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
 
             if (extension.isEmpty()) {
-                extension = metadata.flatMap(FileUtils::getFileExtensionByMetadata);
-
-                if (extension.isEmpty()) {
-                    String fileStatus = "File doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
-                    file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
-                    return;
-                }
+                String fileStatus = "File doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
+                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
+                return;
             }
 
             String formattedOriginalDate = originalDate.get().toLowerCase();

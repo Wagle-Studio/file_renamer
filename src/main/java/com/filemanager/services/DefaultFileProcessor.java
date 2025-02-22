@@ -13,7 +13,7 @@ public class DefaultFileProcessor implements FileProcessor {
 
     @Override
     public void analyse(ProcessingTask task) {
-        task.setStatus(TaskStatus.ANALYSING, "Analysing folder");
+        task.setStatus(TaskStatus.ANALYZING, "Analyzing folder");
 
         List<File> folderContent = FileUtils.getFolderContent(task.getFolderPath());
 
@@ -40,8 +40,8 @@ public class DefaultFileProcessor implements FileProcessor {
             return;
         }
 
-        task.setProcessibleFiles(FileUtils.getProcessableFiles(processingFiles));
-        task.setUnprocessibleFiles(FileUtils.getUnprocessableFiles(processingFiles));
+        task.setProcessableFiles(FileUtils.getProcessableFiles(processingFiles));
+        task.setUnprocessableFiles(FileUtils.getUnprocessableFiles(processingFiles));
 
         task.setStatus(TaskStatus.ANALYSED, "Ready to process files");
     }
@@ -50,13 +50,13 @@ public class DefaultFileProcessor implements FileProcessor {
     public void run(ProcessingTask task) {
         if (!task.getStrategy().getStrategyPreprocess().isEmpty()) {
             for (RenameStrategy preStrategy : task.getStrategy().getStrategyPreprocess()) {
-                List<ProcessingFile> processingFiles = preStrategy.execute(task.getProcessibleFiles(), true);
-                task.setProcessibleFiles(FileUtils.getProcessableFiles(processingFiles));
+                List<ProcessingFile> processingFiles = preStrategy.execute(task.getProcessableFiles(), true);
+                task.setProcessableFiles(FileUtils.getProcessableFiles(processingFiles));
             }
         }
 
-        List<ProcessingFile> finalFiles = task.getStrategy().execute(task.getProcessibleFiles(), false);
-        task.setProcessibleFiles(FileUtils.getProcessableFiles(finalFiles));
+        List<ProcessingFile> finalFiles = task.getStrategy().execute(task.getProcessableFiles(), false);
+        task.setProcessableFiles(FileUtils.getProcessableFiles(finalFiles));
         task.setStatus(TaskStatus.PROCESSED, "Processed with success");
     }
 }

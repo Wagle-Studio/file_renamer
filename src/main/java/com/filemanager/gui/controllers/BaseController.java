@@ -6,9 +6,9 @@ import com.filemanager.gui.views.View;
 
 public abstract class BaseController {
 
-    private final ViewManager screenManager = Injector.getInstance().getViewManager();
+    private final ViewManager viewManager = Injector.getInstance().getViewManager();
 
     public void render(View view) {
-        this.screenManager.changeScreen(view);
+        this.viewManager.changeScreen(view);
     }
 }

@@ -27,14 +27,14 @@ public final class ProcessInteractor {
         this.onCancel = onCancel;
 
         this.allFiles.set(FXCollections.observableArrayList());
-        task.getProcessibleFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
-        task.getUnprocessibleFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
+        task.getProcessableFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
+        task.getUnprocessableFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
         this.updateAllFiles();
     }
 
     private void updateAllFiles() {
-        this.allFiles.setAll(task.getProcessibleFilesProperty());
-        this.allFiles.addAll(task.getUnprocessibleFilesProperty());
+        this.allFiles.setAll(task.getProcessableFilesProperty());
+        this.allFiles.addAll(task.getUnprocessableFilesProperty());
     }
 
     public String getTaskStrategy() {
@@ -57,16 +57,16 @@ public final class ProcessInteractor {
         return this.allFiles.size();
     }
 
-    public ListProperty<ProcessingFile> getProcesibledFiles() {
-        return this.task.getProcessibleFilesProperty();
+    public ListProperty<ProcessingFile> getProcessableFiles() {
+        return this.task.getProcessableFilesProperty();
     }
 
-    public Integer getProcesibledFilesSize() {
-        return this.task.getProcessibleFiles().size();
+    public Integer getProcessableFilesSize() {
+        return this.task.getProcessableFiles().size();
     }
 
-    public Integer getUnprocesibledFilesSize() {
-        return this.task.getUnprocessibleFiles().size();
+    public Integer getUnprocessableFilesSize() {
+        return this.task.getUnprocessableFiles().size();
     }
 
     public void handleStartProcess() {

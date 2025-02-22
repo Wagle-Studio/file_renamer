@@ -16,12 +16,12 @@ import javafx.collections.ObservableList;
 
 public class ProcessingTask {
 
-    final private StringProperty folderPath = new SimpleStringProperty();
-    final private ObjectProperty<RenameStrategy> strategy = new SimpleObjectProperty<>();
-    final private ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.UNDEFINED);
-    final private StringProperty statusMessage = new SimpleStringProperty();
-    final private ListProperty<ProcessingFile> processibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
-    final private ListProperty<ProcessingFile> unprocessibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final StringProperty folderPath = new SimpleStringProperty();
+    private final ObjectProperty<RenameStrategy> strategy = new SimpleObjectProperty<>();
+    private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.UNDEFINED);
+    private final StringProperty statusMessage = new SimpleStringProperty();
+    private final ListProperty<ProcessingFile> processableFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
+    private final ListProperty<ProcessingFile> unprocessableFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     public StringProperty getFolderPathProperty() {
         return this.folderPath;
@@ -72,31 +72,31 @@ public class ProcessingTask {
         this.statusMessage.set(statusMessage);
     }
 
-    public ListProperty<ProcessingFile> getProcessibleFilesProperty() {
-        return this.processibleFiles;
+    public ListProperty<ProcessingFile> getProcessableFilesProperty() {
+        return this.processableFiles;
     }
 
-    public ObservableList<ProcessingFile> getProcessibleFiles() {
-        return this.processibleFiles.get();
+    public ObservableList<ProcessingFile> getProcessableFiles() {
+        return this.processableFiles.get();
     }
 
-    public void setProcessibleFiles(List<ProcessingFile> processibleFiles) {
-        this.processibleFiles.setAll(processibleFiles);
+    public void setProcessableFiles(List<ProcessingFile> processableFiles) {
+        this.processableFiles.setAll(processableFiles);
     }
 
-    public ListProperty<ProcessingFile> getUnprocessibleFilesProperty() {
-        return this.unprocessibleFiles;
+    public ListProperty<ProcessingFile> getUnprocessableFilesProperty() {
+        return this.unprocessableFiles;
     }
 
-    public ObservableList<ProcessingFile> getUnprocessibleFiles() {
-        return this.unprocessibleFiles.get();
+    public ObservableList<ProcessingFile> getUnprocessableFiles() {
+        return this.unprocessableFiles.get();
     }
 
-    public void setUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
-        this.unprocessibleFiles.setAll(unprocessibleFiles);
+    public void setUnprocessableFiles(List<ProcessingFile> unprocessableFiles) {
+        this.unprocessableFiles.setAll(unprocessableFiles);
     }
 
-    public void addUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
-        this.unprocessibleFiles.addAll(unprocessibleFiles);
+    public void addUnprocessableFiles(List<ProcessingFile> unprocessableFiles) {
+        this.unprocessableFiles.addAll(unprocessableFiles);
     }
 }

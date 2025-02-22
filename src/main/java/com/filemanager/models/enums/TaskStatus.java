@@ -2,7 +2,7 @@ package com.filemanager.models.enums;
 
 public enum TaskStatus {
     UNDEFINED("Undefined"),
-    ANALYSING("Analysing"),
+    ANALYZING("Analyzing"),
     ANALYSED("Analysed"),
     PROCESSING("Processing"),
     PROCESSED("Processed"),

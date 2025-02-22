@@ -14,6 +14,7 @@ public final class MainController extends BaseController {
     }
 
     private void navigateToProcessController(ProcessingTask task) {
-        new ProcessController(task);
+        @SuppressWarnings("unused")
+        ProcessController nextController = new ProcessController(task);
     }
 }

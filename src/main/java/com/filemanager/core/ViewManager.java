@@ -14,7 +14,7 @@ public class ViewManager {
 
     public void changeScreen(View view) {
         if (this.stage == null) {
-            throw new Error("Screen stage isn't defined.");
+            throw new Error("The screen stage is not defined");
         }
 
         this.stage.setScene(view.getScene());

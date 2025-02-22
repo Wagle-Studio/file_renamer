@@ -22,6 +22,7 @@ public final class ProcessController extends BaseController {
     }
 
     private void cancel() {
-        new MainController();
+        @SuppressWarnings("unused")
+        MainController nextController = new MainController();
     }
 }

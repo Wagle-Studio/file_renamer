@@ -30,14 +30,16 @@ public final class ProcessView extends BaseView {
     private Label labelFolderPath;
     @FXML
     private Label labelProcessedFiles;
+
     @FXML
-    private Label labelProcessibleFiles;
+    private Label labelProcessableFiles;
     @FXML
-    private Label labelUnprocessibleFiles;
+    private Label labelUnprocessableFiles;
+
     @FXML
     private Label labelDisplayedFiles;
     @FXML
-    private CheckBox checkBoxHideUnprocessibleFiles;
+    private CheckBox checkBoxHideUnprocessableFiles;
     @FXML
     private TableView<ProcessingFile> tableViewFile;
     @FXML
@@ -63,13 +65,13 @@ public final class ProcessView extends BaseView {
         this.initializeLabels();
         this.initializeFileTable();
 
-        if (this.interactor.getProcesibledFilesSize() > 1) {
+        if (this.interactor.getProcessableFilesSize() > 1) {
             buttonStartProcess.setDisable(false);
         }
 
         this.interactor.getAllFiles().addListener((obs, oldList, newList) -> updateDisplayedFiles());
 
-        checkBoxHideUnprocessibleFiles.setOnAction(event -> handleHideUnprocessableFiles());
+        checkBoxHideUnprocessableFiles.setOnAction(event -> handleHideUnprocessableFiles());
         buttonStartProcess.setOnAction(event -> this.interactor.handleStartProcess());
         buttonCancel.setOnAction(event -> this.interactor.handleCancel());
 
@@ -81,8 +83,8 @@ public final class ProcessView extends BaseView {
         labelTaskStatusMessage.textProperty().bind(this.interactor.getTaskStatusMessage());
         labelFolderPath.setText(this.interactor.getFolderPath());
         labelProcessedFiles.setText(this.buildFilesSizeLabel(this.interactor.getAllFilesSize(), "analysed", "file"));
-        labelProcessibleFiles.setText(this.buildFilesSizeLabel(this.interactor.getProcesibledFilesSize(), "processable", "file"));
-        labelUnprocessibleFiles.setText(this.buildFilesSizeLabel(this.interactor.getUnprocesibledFilesSize(), "unprocessable", "file"));
+        labelProcessableFiles.setText(this.buildFilesSizeLabel(this.interactor.getProcessableFilesSize(), "processable", "file"));
+        labelUnprocessableFiles.setText(this.buildFilesSizeLabel(this.interactor.getUnprocessableFilesSize(), "unprocessable", "file"));
         labelDisplayedFiles.textProperty().bind(this.displayedFiles.sizeProperty().asString().concat(" items"));
     }
 
@@ -99,16 +101,16 @@ public final class ProcessView extends BaseView {
     }
 
     private void handleHideUnprocessableFiles() {
-        if (checkBoxHideUnprocessibleFiles.isSelected()) {
-            this.displayedFiles.setAll(this.interactor.getProcesibledFiles());
+        if (checkBoxHideUnprocessableFiles.isSelected()) {
+            this.displayedFiles.setAll(this.interactor.getProcessableFiles());
         } else {
             this.displayedFiles.setAll(this.interactor.getAllFiles());
         }
     }
 
     private void updateDisplayedFiles() {
-        if (checkBoxHideUnprocessibleFiles.isSelected()) {
-            this.displayedFiles.setAll(this.interactor.getProcesibledFiles());
+        if (checkBoxHideUnprocessableFiles.isSelected()) {
+            this.displayedFiles.setAll(this.interactor.getProcessableFiles());
         } else {
             this.displayedFiles.setAll(this.interactor.getAllFiles());
         }

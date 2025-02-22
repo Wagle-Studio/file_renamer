@@ -11,12 +11,12 @@ import javafx.beans.property.StringProperty;
 
 public class ProcessingFile {
 
-    final private ObjectProperty<File> file = new SimpleObjectProperty<>();
-    final private ObjectProperty<File> parentDir = new SimpleObjectProperty<>();
-    final private StringProperty originalName = new SimpleStringProperty();
-    final private StringProperty currentName = new SimpleStringProperty();
-    final private ObjectProperty<FileStatus> status = new SimpleObjectProperty<>(FileStatus.UNDEFINED);
-    final private StringProperty statusMessage = new SimpleStringProperty();
+    private final ObjectProperty<File> file = new SimpleObjectProperty<>();
+    private final ObjectProperty<File> parentDir = new SimpleObjectProperty<>();
+    private final StringProperty originalName = new SimpleStringProperty();
+    private final StringProperty currentName = new SimpleStringProperty();
+    private final ObjectProperty<FileStatus> status = new SimpleObjectProperty<>(FileStatus.UNDEFINED);
+    private final StringProperty statusMessage = new SimpleStringProperty();
 
     public ProcessingFile(File file) {
         this.file.set(file);

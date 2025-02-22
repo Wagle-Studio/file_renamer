@@ -71,25 +71,26 @@
             <HBox spacing="24.0">
                <children>
                   <Label fx:id="labelProcessedFiles" text="53 analysed files" />
-                  <Label fx:id="labelProcessibleFiles" text="33 processable files" />
-                  <Label fx:id="labelUnprocessibleFiles" layoutX="152.0" layoutY="10.0" text="20 unprocessable files" />
-                  <CheckBox fx:id="checkBoxHideUnprocessibleFiles" mnemonicParsing="false" text="Hide unprocessable files" />
+                  <Label fx:id="labelProcessableFiles" text="33 processable files" />
+                  <Label fx:id="labelUnprocessableFiles" layoutX="152.0" layoutY="10.0" text="20 unprocessable files" />
+                  <CheckBox fx:id="checkBoxHideUnprocessableFiles" mnemonicParsing="false" text="Hide unprocessable files" />
                </children>
             </HBox>
             <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0" style="-fx-background-color: #fcfcfc;">
-              <columns>
+               <columns>
                   <TableColumn fx:id="tableColumnStatus" minWidth="5.0" prefWidth="197.0" text="Status" />
-                <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Current name" />
+                  <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Current name" />
                   <TableColumn fx:id="tableColumnNewName" prefWidth="163.0" text="New name" />
                   <TableColumn fx:id="tableColumnStatusMessage" minWidth="5.0" prefWidth="494.0" text="Status message" />
-              </columns>
+               </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT">
                <children>
                   <Label fx:id="labelDisplayedFiles" text="53 items">
                      <font>
                         <Font name="System Bold" size="13.0" />
-                     </font></Label>
+                     </font>
+                  </Label>
                </children>
             </HBox>
          </children>

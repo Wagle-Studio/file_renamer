@@ -4,9 +4,9 @@ import javafx.scene.Scene;
 
 public interface View {
 
-    public Scene getScene();
+    Scene getScene();
 
-    public String getTitle();
+    String getTitle();
 
-    public abstract void build();
+    void build();
 }

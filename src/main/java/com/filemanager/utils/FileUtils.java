@@ -58,6 +58,26 @@ public class FileUtils {
     }
 
     public static Optional<FileExtension> getFileExtension(File file) {
+        Optional<FileExtension> extension = FileUtils.getFileExtensionByFile(file);
+
+        if (extension.isEmpty()) {
+            Optional<Metadata> metadata = FileUtils.getFileMetadata(file);
+
+            if (metadata.isEmpty()) {
+                return Optional.empty();
+            }
+
+            extension = FileUtils.getFileExtensionByMetadata(metadata.get());
+
+            if (extension.isEmpty()) {
+                return Optional.empty();
+            }
+        }
+
+        return extension;
+    }
+
+    public static Optional<FileExtension> getFileExtensionByFile(File file) {
         if (file == null || !file.isFile()) {
             return Optional.empty();
         }

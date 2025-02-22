@@ -6,13 +6,13 @@ import com.filemanager.models.ProcessingFile;
 
 public interface RenameStrategy {
 
-    public String getDisplayName();
+    String getDisplayName();
 
     default List<RenameStrategy> getStrategyPreprocess() {
         return List.of();
     }
 
-    public Boolean validateFileRequirements(ProcessingFile file);
+    Boolean validateFileRequirements(ProcessingFile file);
 
-    public List<ProcessingFile> execute(List<ProcessingFile> files, boolean prePreprocess);
+    List<ProcessingFile> execute(List<ProcessingFile> files, boolean prePreprocess);
 }

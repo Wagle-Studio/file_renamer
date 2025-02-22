@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.drew.metadata.Metadata;
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.enums.FileStatus;
 import com.filemanager.services.renaming.RenameStrategy;
@@ -31,17 +30,7 @@ public class RenameRandomly implements RenameStrategy {
 
         Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
 
-        if (extension.isPresent()) {
-            return true;
-        }
-
-        Optional<Metadata> metadata = FileUtils.getFileMetadata(file.getFile());
-
-        if (metadata.isEmpty()) {
-            return false;
-        }
-
-        return FileUtils.getFileExtensionByMetadata(metadata.get()).isPresent();
+        return extension.isPresent();
     }
 
     @Override
@@ -50,13 +39,9 @@ public class RenameRandomly implements RenameStrategy {
             Optional<FileExtension> extension = FileUtils.getFileExtension(file.getFile());
 
             if (extension.isEmpty()) {
-                extension = FileUtils.getFileMetadata(file.getFile()).flatMap(FileUtils::getFileExtensionByMetadata);
-
-                if (extension.isEmpty()) {
-                    String fileStatus = "File doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
-                    file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
-                    return;
-                }
+                String fileStatus = "File doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
+                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
+                return;
             }
 
             String newFileName = UUID.randomUUID().toString().replace("-", "") + "." + extension.get().name().toLowerCase();
