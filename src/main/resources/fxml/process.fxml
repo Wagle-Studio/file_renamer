@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -64,6 +65,7 @@
                   <Label fx:id="labelProcessedFiles" text="53 analysed files" />
                   <Label fx:id="labelProcessibleFiles" text="33 processable files" />
                   <Label fx:id="labelUnprocessibleFiles" layoutX="152.0" layoutY="10.0" text="20 unprocessable files" />
+                  <CheckBox fx:id="checkBoxHideUnprocessibleFiles" mnemonicParsing="false" text="Hide unprocessable files" />
                </children>
             </HBox>
             <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0">
@@ -74,6 +76,11 @@
                   <TableColumn fx:id="tableColumnStatusMessage" minWidth="5.0" prefWidth="494.0" text="Status message" />
               </columns>
             </TableView>
+            <HBox alignment="CENTER_RIGHT">
+               <children>
+                  <Label fx:id="labelDisplayedFiles" text="53 items" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="12.0" left="24.0" right="24.0" top="6.0" />

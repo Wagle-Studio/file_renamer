@@ -49,8 +49,16 @@ public final class ProcessInteractor {
         return this.task.getFolderPath();
     }
 
+    public ListProperty<ProcessingFile> getAllFiles() {
+        return this.allFiles;
+    }
+
     public Integer getAllFilesSize() {
         return this.allFiles.size();
+    }
+
+    public ListProperty<ProcessingFile> getProcesibledFiles() {
+        return this.task.getProcessibleFilesProperty();
     }
 
     public Integer getProcesibledFilesSize() {
@@ -59,10 +67,6 @@ public final class ProcessInteractor {
 
     public Integer getUnprocesibledFilesSize() {
         return this.task.getUnprocessibleFiles().size();
-    }
-
-    public ListProperty<ProcessingFile> getAllFiles() {
-        return this.allFiles;
     }
 
     public void handleStartProcess() {
