@@ -15,6 +15,7 @@ public class ProcessingFile {
     final private ObjectProperty<File> file = new SimpleObjectProperty<>();
     final private ObjectProperty<File> parentDir = new SimpleObjectProperty<>();
     final private StringProperty originalName = new SimpleStringProperty();
+    final private StringProperty currentName = new SimpleStringProperty();
     final private ObjectProperty<FileStatus> status = new SimpleObjectProperty<>(FileStatus.UNDEFINED);
     final private StringProperty statusMessage = new SimpleStringProperty();
     final private ObjectProperty<Metadata> metadata = new SimpleObjectProperty<>();
@@ -35,6 +36,7 @@ public class ProcessingFile {
 
     public void setFile(File file) {
         this.file.set(file);
+        this.currentName.set(file.getName());
     }
 
     public ObjectProperty<File> getParentDirProperty() {
@@ -51,6 +53,14 @@ public class ProcessingFile {
 
     public String getOriginalName() {
         return this.originalName.get();
+    }
+
+    public StringProperty getCurrentNameProperty() {
+        return this.currentName;
+    }
+
+    public String getCurrentName() {
+        return this.currentName.get();
     }
 
     public ObjectProperty<FileStatus> getStatusProperty() {

@@ -84,7 +84,7 @@ public class FileUtils {
     public static List<ProcessingFile> applyStrategyFileValidation(List<ProcessingFile> files, RenameStrategy strategy) {
         files.forEach(file -> {
             if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileMetadata(file.getMetadata())) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match strategy requirements.");
+                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match requirements for strategy : " + strategy.getClass().getSimpleName());
             }
         });
         return files;

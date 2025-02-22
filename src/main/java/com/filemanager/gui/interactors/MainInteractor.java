@@ -10,9 +10,7 @@ import com.filemanager.services.renaming.RenameStrategy;
 import com.filemanager.services.renaming.RenameStrategyFactory;
 import com.filemanager.services.renaming.StrategyType;
 
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Window;
 
@@ -42,10 +40,9 @@ public final class MainInteractor {
     }
 
     public List<StrategyChoice> getStrategyChoices() {
-        ObservableList choices = FXCollections.observableArrayList(
+        return FXCollections.observableArrayList(
                 new StrategyChoice("Rename by original date", StrategyType.BY_DATE)
         );
-        return new SimpleListProperty(choices);
     }
 
     public void handleStrategyChoice(StrategyChoice choice) {
