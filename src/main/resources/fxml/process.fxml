@@ -8,9 +8,9 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="12.0" style="-fx-background-color: #f9fbfd;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox>
          <VBox.margin>
@@ -21,7 +21,11 @@
                <children>
                   <HBox spacing="12.0">
                      <children>
-                        <Label text="Task :" />
+                        <Label text="Task :">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
                         <Label fx:id="labelTaskStrategy" layoutX="10.0" layoutY="10.0" text="Rename by Date" />
                         <Label layoutX="10.0" layoutY="10.0" text="-" />
                         <Label fx:id="labelTaskStatusMessage" layoutX="61.0" layoutY="10.0" text="ready to process" />
@@ -29,7 +33,11 @@
                   </HBox>
                   <HBox layoutX="34.0" layoutY="22.0" spacing="12.0">
                      <children>
-                        <Label text="Folder path :" />
+                        <Label text="Folder path">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
                         <Label fx:id="labelFolderPath" text="/home/example/documents/2020_winter" />
                      </children>
                   </HBox>
@@ -68,7 +76,7 @@
                   <CheckBox fx:id="checkBoxHideUnprocessibleFiles" mnemonicParsing="false" text="Hide unprocessable files" />
                </children>
             </HBox>
-            <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0">
+            <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0" style="-fx-background-color: #fcfcfc;">
               <columns>
                   <TableColumn fx:id="tableColumnStatus" minWidth="5.0" prefWidth="197.0" text="Status" />
                 <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Current name" />
@@ -78,7 +86,10 @@
             </TableView>
             <HBox alignment="CENTER_RIGHT">
                <children>
-                  <Label fx:id="labelDisplayedFiles" text="53 items" />
+                  <Label fx:id="labelDisplayedFiles" text="53 items">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
                </children>
             </HBox>
          </children>

@@ -1,34 +1,45 @@
 # File Renamer
 
-☕ Java 17 . 🛠️ Maven
+☕ Java 17 . 🛠️ Maven . 🎨 JavaFX
+
+![Git de démonstration](./demo.gif) 
 
 ## Contexte
 
-Je débute en Java et ce projet me sert de support pour explorer le langage et ses bonnes pratiques, l'objectif est d'apprendre en mettant en pratique.
+Je débute en Java et ce projet me sert de support pour explorer le langage et ses bonnes pratiques. L'objectif est d'apprendre en mettant en pratique avec une approche structurée et modulaire.
 
 ## Présentation
 
-Il s'agit d'un script permettant de renommer des fichiers selon différentes stratégies (par date, format personnalisé, conversion de casse, etc.).  
+**File Renamer** est une application permettant de renommer des fichiers selon différentes stratégies :  
 
-L'objectif n'est pas seulement de créer un outil fonctionnel, mais aussi de structurer le code de manière évolutive et maintenable.
+🔹 **Par date** (date de prise de vue, modification...)  
+🔹 **Format personnalisé** (préfixe, suffixe, remplacement...)  - à venir  
+🔹 **Conversion de casse** (majuscules, minuscules, camelCase...)  - à venir
 
-**☕ Java & Maven** : J'ai structuré ce projet avec Maven pour mieux gérer les dépendances et organiser mon code de manière modulaire.
+L'objectif n'est pas seulement de proposer un outil fonctionnel, mais aussi d'adopter une **architecture propre et évolutive**.
 
-**🏗️ Design Pattern** : J'ai implémenté le pattern Strategy pour encapsuler les différentes méthodes de renommage. Une Factory permet d'instancier dynamiquement la stratégie adaptée en fonction des besoins.
+---
 
-**🪴 Évolutivité** : Le projet est conçu pour être facilement extensible. Il est possible d'ajouter d'autres stratégies de renommage sans impacter le reste du code.
+### Architecture & conception
 
-## Installation & Utilisation
+🔹 **MVCI avec JavaFX** : Organisation **Model - View - Controller - Interactor** pour la séparation des responsabilités.  
+🔹 **Pattern Strategy** : Encapsulation des différentes méthodes de renommage pour une évolutivité optimale.  
+🔹 **Factory Pattern** : Instanciation dynamique des stratégies adaptées en fonction du besoin.  
+🔹 **Injection de dépendances** : Utilisation d'un Injector maison pour faciliter la gestion des composants.  
+🔹 **Observable & Binding** : Mise à jour dynamique de l'UI via JavaFX et liaison des données.
 
-### Cloner le projet
+---
+
+## Installation
 
 ```sh
-git clone git@github.com:Wagle-Studio/rename_picture_script.git
-cd rename_picture_script
+git@github.com:Wagle-Studio/file_renamer.git
+cd file_renamer
+mvn clean install
+mvn clean package
+mvn exec:java -Dexec.mainClass="com.filemanager.App"
 ```
 
-### Compiler et exécuter
-
 ```sh
-mvn package && mvn exec:java -Dexec.mainClass="com.filemanager.App"
+mvn clean javafx:run -e # Launch file renamer.
 ```
