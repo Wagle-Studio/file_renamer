@@ -1,8 +1,9 @@
 package com.filemanager.services;
 
-import com.filemanager.services.renaming.StrategyType;
+import com.filemanager.models.ProcessingTask;
 
 public interface FileProcessor {
 
-    public void run(String folderPath, StrategyType strategyType);
+    public void analyse(ProcessingTask task);
+    public void run(ProcessingTask task);
 }
