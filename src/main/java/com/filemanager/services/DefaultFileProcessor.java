@@ -13,19 +13,19 @@ public class DefaultFileProcessor implements FileProcessor {
 
     @Override
     public void analyse(ProcessingTask task) {
-        task.setStatus(TaskStatus.ANALYSING, "Analysing folder.");
+        task.setStatus(TaskStatus.ANALYSING, "Analysing folder");
 
         List<File> folderContent = FileUtils.getFolderContent(task.getFolderPath());
 
         if (folderContent.isEmpty()) {
-            task.setStatus(TaskStatus.ERROR, "The folder is empty.");
+            task.setStatus(TaskStatus.ERROR, "The folder is empty");
             return;
         }
 
         List<ProcessingFile> processedFiles = FileUtils.processingFiles(folderContent);
 
         if (processedFiles.isEmpty()) {
-            task.setStatus(TaskStatus.ERROR, "No files to process.");
+            task.setStatus(TaskStatus.ERROR, "No files to process");
             return;
         }
 
@@ -41,11 +41,11 @@ public class DefaultFileProcessor implements FileProcessor {
         task.setUnprocessibleFiles(FileUtils.getUnprocessableFiles(processingFiles));
 
         if (task.getProcessibleFiles().isEmpty()) {
-            task.setStatus(TaskStatus.ERROR, "No processable files.");
+            task.setStatus(TaskStatus.ERROR, "No processable files");
             return;
         }
 
-        task.setStatus(TaskStatus.ANALYSED, "Ready to process files.");
+        task.setStatus(TaskStatus.ANALYSED, "Ready to process files");
     }
 
     @Override
@@ -59,6 +59,6 @@ public class DefaultFileProcessor implements FileProcessor {
 
         List<ProcessingFile> finalFiles = task.getStrategy().execute(task.getProcessibleFiles(), false);
         task.setProcessibleFiles(FileUtils.getProcessableFiles(finalFiles));
-        task.setStatus(TaskStatus.PROCESSED, "Processed with success.");
+        task.setStatus(TaskStatus.PROCESSED, "Processed with success");
     }
 }

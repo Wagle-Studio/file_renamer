@@ -11,7 +11,7 @@ import javafx.stage.Window;
 
 public final class MainView extends BaseView {
 
-    public static final String TITLE = "main";
+    public static final String TITLE = "FileManager";
     public static final String PATH = "main.fxml";
     private final MainInteractor interactor;
 

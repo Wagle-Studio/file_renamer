@@ -14,11 +14,17 @@ public final class ProcessInteractor {
 
     private final ProcessingTask task;
     private final Consumer<ProcessingTask> onStartProcess;
+    private final Runnable onCancel;
     private final ListProperty<ProcessingFile> allFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
 
-    public ProcessInteractor(ProcessingTask task, Consumer<ProcessingTask> onStartProcess) {
+    public ProcessInteractor(
+            ProcessingTask task,
+            Consumer<ProcessingTask> onStartProcess,
+            Runnable onCancel
+    ) {
         this.task = task;
         this.onStartProcess = onStartProcess;
+        this.onCancel = onCancel;
 
         this.allFiles.set(FXCollections.observableArrayList());
         task.getProcessibleFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
@@ -61,5 +67,9 @@ public final class ProcessInteractor {
 
     public void handleStartProcess() {
         this.onStartProcess.accept(this.task);
+    }
+
+    public void handleCancel() {
+        this.onCancel.run();
     }
 }
