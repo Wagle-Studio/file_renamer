@@ -20,7 +20,6 @@ public class ViewManager {
         this.stage.setScene(view.getScene());
         this.stage.setTitle(view.getTitle());
         this.stage.show();
-
-        view.initialize();
+        view.build();
     }
 }

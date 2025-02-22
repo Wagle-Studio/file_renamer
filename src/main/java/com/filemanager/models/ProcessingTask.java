@@ -24,17 +24,16 @@ public class ProcessingTask {
     final private ListProperty<ProcessingFile> processibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
     final private ListProperty<ProcessingFile> unprocessibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
 
-    public ProcessingTask(String folderPath, RenameStrategy strategy) {
-        this.folderPath.set(folderPath);
-        this.strategy.set(strategy);
-    }
-
     public StringProperty getFolderPathProperty() {
         return this.folderPath;
     }
 
     public String getFolderPath() {
         return this.folderPath.get();
+    }
+
+    public void setFolderPath(String folderPath) {
+        this.folderPath.set(folderPath);
     }
 
     public ObjectProperty<RenameStrategy> getStrategyProperty() {
@@ -47,6 +46,10 @@ public class ProcessingTask {
 
     public ObjectProperty<TaskStatus> getStatusProperty() {
         return this.status;
+    }
+
+    public void setStrategy(RenameStrategy strategy) {
+        this.strategy.set(strategy);
     }
 
     public TaskStatus getStatus() {

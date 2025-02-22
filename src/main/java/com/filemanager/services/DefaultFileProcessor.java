@@ -19,7 +19,9 @@ public class DefaultFileProcessor implements FileProcessor {
         RenameStrategy strategy = RenameStrategyFactory.getStrategy(strategyType);
 
         // Create a processing task with the specified folder and strategy.
-        ProcessingTask task = new ProcessingTask(folderPath, strategy);
+        ProcessingTask task = new ProcessingTask();
+        task.setFolderPath(folderPath);
+        task.setStrategy(strategy);
 
         // Retrieve the folder content (list of files).
         List<File> folderContent = FileUtils.getFolderContent(task.getFolderPath());

@@ -1,12 +1,11 @@
 package com.filemanager.gui.views;
 
-import java.io.File;
-
 import com.filemanager.gui.interactors.MainInteractor;
+import com.filemanager.gui.models.StrategyChoice;
 
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Window;
 
@@ -15,12 +14,15 @@ public final class MainView extends BaseView {
     public static final String TITLE = "main";
     public static final String PATH = "main.fxml";
     private final MainInteractor interactor;
-    private final SimpleObjectProperty<File> folder = new SimpleObjectProperty<>();
 
     @FXML
     private Button buttonSelectFolder;
     @FXML
-    private Label selectedFolderPath;
+    private Label labelSelectedFolderPath;
+    @FXML
+    private ChoiceBox<StrategyChoice> choiceBoxSelectStrategy;
+    @FXML
+    private Button buttonStartAnalyse;
 
     public MainView(MainInteractor interactor) {
         super(PATH, TITLE);
@@ -28,16 +30,30 @@ public final class MainView extends BaseView {
     }
 
     @Override
-    @FXML
-    public void initialize() {
-        selectedFolderPath.setVisible(false);
+    public void build() {
+        this.initializeStrategyChoiceBox();
+        buttonSelectFolder.setOnAction(event -> this.handleFileSearch());
+        buttonStartAnalyse.setOnAction(event -> this.handleStartAnalyse());
+    }
 
-        buttonSelectFolder.setOnAction(event -> {
-            Window window = buttonSelectFolder.getScene().getWindow();
-            interactor.handleFileSearch(window);
-            this.folder.set(interactor.getSelectedFolder().get());
-            selectedFolderPath.setVisible(true);
-            selectedFolderPath.setText(this.folder.get().getAbsolutePath());
+    private void handleFileSearch() {
+        Window window = buttonSelectFolder.getScene().getWindow();
+        this.interactor.handleFileSearch(window);
+        labelSelectedFolderPath.setVisible(true);
+        choiceBoxSelectStrategy.setVisible(true);
+        labelSelectedFolderPath.setText(this.interactor.getSelectedFolder());
+    }
+
+    private void initializeStrategyChoiceBox() {
+        this.choiceBoxSelectStrategy.getItems().addAll(this.interactor.getStrategyChoices());
+
+        choiceBoxSelectStrategy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            this.interactor.handleStrategyChoice(newValue);
+            buttonStartAnalyse.setVisible(true);
         });
+    }
+
+    private void handleStartAnalyse() {
+        this.interactor.handleStartAnalyse();
     }
 }
