@@ -6,8 +6,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="24.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="24.0" style="-fx-background-color: #f9fbfd;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox>
          <children>
@@ -15,13 +16,20 @@
                <children>
                   <HBox spacing="12.0">
                      <children>
-                        <Label text="Task :" />
+                        <Label text="Task :">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
                         <Label fx:id="labelTaskStrategy" layoutX="10.0" layoutY="10.0" text="Rename by Date" visible="false" />
                      </children>
                   </HBox>
                   <HBox layoutX="34.0" layoutY="22.0" spacing="12.0">
                      <children>
-                        <Label text="Folder path :" />
+                        <Label text="Folder path">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
                         <Label fx:id="labelSelectedFolderPath" text="/home/example/documents/2020_winter" visible="false" />
                      </children>
                   </HBox>
