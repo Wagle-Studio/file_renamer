@@ -14,6 +14,13 @@ import com.filemanager.utils.FileUtils;
 
 public class RenameByDate implements RenameStrategy {
 
+    private final String displayName = "Rename by date";
+
+    @Override
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
     @Override
     public Boolean validateFileMetadata(Metadata metadata) {
         if (metadata == null) {
@@ -40,14 +47,15 @@ public class RenameByDate implements RenameStrategy {
             Optional<String> rawExtension = FileUtils.getFileExtension(file.getMetadata());
 
             if (rawOriginalDate.isEmpty() || rawExtension.isEmpty()) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match strategy requirements.");
+                String fileStatus = "Metadata doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
+                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
                 return;
             }
 
             File parentDir = file.getParentDir();
 
             if (parentDir == null) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Parent directory is invalid.");
+                file.setStatus(FileStatus.UNPROCESSABLE, "Parent directory is invalid");
                 return;
             }
 
@@ -68,9 +76,9 @@ public class RenameByDate implements RenameStrategy {
             if (file.getFile().renameTo(newFile)) {
                 nameCounter.put(originalDate, suffix);
                 file.setFile(newFile);
-                file.setStatus(prePreprocess ? FileStatus.PROCESSING : FileStatus.PROCESSED, "Renamed to " + newFileName);
+                file.setStatus(prePreprocess ? FileStatus.PROCESSING : FileStatus.PROCESSED, "Renamed by date");
             } else {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Failed to rename file.");
+                file.setStatus(FileStatus.UNPROCESSABLE, "Failed to rename file");
             }
         });
 

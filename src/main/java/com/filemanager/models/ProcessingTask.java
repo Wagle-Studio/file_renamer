@@ -2,7 +2,6 @@ package com.filemanager.models;
 
 import java.util.List;
 
-import com.filemanager.models.enums.FileStatus;
 import com.filemanager.models.enums.TaskStatus;
 import com.filemanager.services.renaming.RenameStrategy;
 
@@ -19,7 +18,7 @@ public class ProcessingTask {
 
     final private StringProperty folderPath = new SimpleStringProperty();
     final private ObjectProperty<RenameStrategy> strategy = new SimpleObjectProperty<>();
-    final private ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.PROCESSING);
+    final private ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.UNDEFINED);
     final private StringProperty statusMessage = new SimpleStringProperty();
     final private ListProperty<ProcessingFile> processibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
     final private ListProperty<ProcessingFile> unprocessibleFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -82,7 +81,7 @@ public class ProcessingTask {
     }
 
     public void setProcessibleFiles(List<ProcessingFile> processibleFiles) {
-        this.processibleFiles.set(FXCollections.observableArrayList(processibleFiles));
+        this.processibleFiles.setAll(processibleFiles);
     }
 
     public ListProperty<ProcessingFile> getUnprocessibleFilesProperty() {
@@ -94,44 +93,10 @@ public class ProcessingTask {
     }
 
     public void setUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
-        this.unprocessibleFiles.set(FXCollections.observableArrayList(unprocessibleFiles));
+        this.unprocessibleFiles.setAll(unprocessibleFiles);
     }
 
     public void addUnprocessibleFiles(List<ProcessingFile> unprocessibleFiles) {
         this.unprocessibleFiles.addAll(unprocessibleFiles);
-    }
-
-    public void results() {
-        List<ProcessingFile> renamedFiles = processibleFiles.stream()
-                .filter(file -> file.getStatus() == FileStatus.PROCESSED)
-                .toList();
-
-        List<ProcessingFile> failedFiles = FXCollections.observableArrayList();
-        failedFiles.addAll(processibleFiles.stream()
-                .filter(file -> file.getStatus() == FileStatus.UNPROCESSABLE)
-                .toList());
-        failedFiles.addAll(unprocessibleFiles);
-
-        System.out.println("\n📋 Dossier   : " + folderPath.get());
-        System.out.println("📋 Stratégie : " + strategy.get().getClass().getSimpleName());
-        System.out.println("📋 Status    : " + status.get() + " - message : " + statusMessage.get());
-
-        System.out.println("\n📁 Total fichiers        : " + (renamedFiles.size() + failedFiles.size()));
-        System.out.println("📄 Fichiers renommés     : " + renamedFiles.size());
-        System.out.println("📄 Fichiers non renommés : " + failedFiles.size());
-
-        System.out.println("\n✅ Fichiers renommés : " + (renamedFiles.isEmpty() ? "Aucun fichier renommé." : renamedFiles.size()));
-        if (!renamedFiles.isEmpty()) {
-            renamedFiles.forEach(file
-                    -> System.out.println(" - " + file.getOriginalName() + " → " + file.getFile().getName())
-            );
-        }
-
-        System.out.println("\n❌ Fichiers non renommés : " + (failedFiles.isEmpty() ? "Aucun échec." : failedFiles.size()) + "\n");
-        if (!failedFiles.isEmpty()) {
-            failedFiles.forEach(file
-                    -> System.out.println(" - " + file.getOriginalName() + " ⚠ " + file.getStatusMessage())
-            );
-        }
     }
 }

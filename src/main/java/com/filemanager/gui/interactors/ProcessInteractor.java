@@ -1,36 +1,62 @@
 package com.filemanager.gui.interactors;
 
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Stream;
 
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.ProcessingTask;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public final class ProcessInteractor {
 
     private final ProcessingTask task;
     private final Consumer<ProcessingTask> onStartProcess;
+    private final ListProperty<ProcessingFile> allFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
 
     public ProcessInteractor(ProcessingTask task, Consumer<ProcessingTask> onStartProcess) {
         this.task = task;
         this.onStartProcess = onStartProcess;
+
+        this.allFiles.set(FXCollections.observableArrayList());
+        task.getProcessibleFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
+        task.getUnprocessibleFilesProperty().addListener((obs, oldList, newList) -> updateAllFiles());
+        this.updateAllFiles();
     }
 
-    public String getStrategy() {
-        return this.task.getStrategy().getClass().getSimpleName();
+    private void updateAllFiles() {
+        this.allFiles.setAll(task.getProcessibleFilesProperty());
+        this.allFiles.addAll(task.getUnprocessibleFilesProperty());
+    }
+
+    public String getTaskStrategy() {
+        return this.task.getStrategy().getDisplayName();
+    }
+
+    public StringProperty getTaskStatusMessage() {
+        return this.task.getStatusMessageProperty();
     }
 
     public String getFolderPath() {
         return this.task.getFolderPath();
     }
 
-    public ObservableList<ProcessingFile> getProcessedFiles() {
-        List<ProcessingFile> files = Stream.concat(this.task.getProcessibleFiles().stream(), this.task.getUnprocessibleFiles().stream()).toList();
-        return FXCollections.observableArrayList(files);
+    public Integer getAllFilesSize() {
+        return this.allFiles.size();
+    }
+
+    public Integer getProcesibledFilesSize() {
+        return this.task.getProcessibleFiles().size();
+    }
+
+    public Integer getUnprocesibledFilesSize() {
+        return this.task.getUnprocessibleFiles().size();
+    }
+
+    public ListProperty<ProcessingFile> getAllFiles() {
+        return this.allFiles;
     }
 
     public void handleStartProcess() {

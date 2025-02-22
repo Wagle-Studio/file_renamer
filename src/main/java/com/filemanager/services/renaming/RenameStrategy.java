@@ -7,6 +7,8 @@ import com.filemanager.models.ProcessingFile;
 
 public interface RenameStrategy {
 
+    public String getDisplayName();
+
     public Boolean validateFileMetadata(Metadata metadata);
 
     default List<RenameStrategy> getPreprocess() {

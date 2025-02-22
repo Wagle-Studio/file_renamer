@@ -18,8 +18,27 @@
          <children>
             <VBox minHeight="-Infinity" minWidth="-Infinity" prefWidth="589.0" spacing="12.0">
                <children>
-                  <Label fx:id="labelStrategy" text="Rename by Date" />
-                  <Label fx:id="labelFolderPath" text="/home/example/documents/2020_winter" />
+                  <HBox spacing="12.0">
+                     <children>
+                        <Label text="Task :" />
+                        <Label fx:id="labelTaskStrategy" layoutX="10.0" layoutY="10.0" text="Rename by Date" />
+                        <Label layoutX="10.0" layoutY="10.0" text="-" />
+                        <Label fx:id="labelTaskStatusMessage" layoutX="61.0" layoutY="10.0" text="ready to process" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="34.0" layoutY="22.0" spacing="12.0">
+                     <children>
+                        <Label text="Folder path :" />
+                        <Label fx:id="labelFolderPath" text="/home/example/documents/2020_winter" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="34.0" layoutY="50.0" spacing="24.0">
+                     <children>
+                        <Label fx:id="labelProcessedFiles" text="53 analysed files" />
+                        <Label fx:id="labelProcessibleFiles" text="33 processable files" />
+                        <Label fx:id="labelUnprocessibleFiles" layoutX="152.0" layoutY="10.0" text="20 unprocessable files" />
+                     </children>
+                  </HBox>
                </children>
                <opaqueInsets>
                   <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
@@ -28,9 +47,9 @@
                   <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
                </padding>
             </VBox>
-            <VBox alignment="CENTER_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="612.0">
+            <VBox alignment="TOP_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="612.0">
                <children>
-                  <Button fx:id="buttonStartProcess" mnemonicParsing="false" text="Start Process" />
+                  <Button fx:id="buttonStartProcess" disable="true" mnemonicParsing="false" text="Start Process" />
                </children>
                <opaqueInsets>
                   <Insets bottom="12.0" left="24.0" right="24.0" top="12.0" />
@@ -46,13 +65,13 @@
       </HBox>
       <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0">
         <columns>
-          <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Initial name" />
-            <TableColumn fx:id="tableColumnNewName" prefWidth="163.0" text="New name" />
             <TableColumn fx:id="tableColumnStatus" minWidth="5.0" prefWidth="197.0" text="Status" />
+          <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Current name" />
+            <TableColumn fx:id="tableColumnNewName" prefWidth="163.0" text="New name" />
             <TableColumn fx:id="tableColumnStatusMessage" minWidth="5.0" prefWidth="494.0" text="Status message" />
         </columns>
          <padding>
-            <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+            <Insets bottom="24.0" left="24.0" right="24.0" top="12.0" />
          </padding>
       </TableView>
    </children>
