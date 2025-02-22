@@ -11,7 +11,7 @@ public final class ProcessController extends BaseController {
     private final FileProcessor fileProcessor = Injector.getInstance().getFileProcessor();
 
     public ProcessController(ProcessingTask task) {
-        ProcessInteractor interactor = new ProcessInteractor(task, this::processFiles);
+        ProcessInteractor interactor = new ProcessInteractor(task, this::processFiles, this::cancel);
         ProcessView view = new ProcessView(interactor);
         this.fileProcessor.analyse(task);
         this.render(view);
@@ -19,5 +19,9 @@ public final class ProcessController extends BaseController {
 
     private void processFiles(ProcessingTask task) {
         this.fileProcessor.run(task);
+    }
+
+    private void cancel() {
+        new MainController();
     }
 }

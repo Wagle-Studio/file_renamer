@@ -13,7 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public final class ProcessView extends BaseView {
 
-    public static final String TITLE = "Process";
+    public static final String TITLE = "FileManager";
     public static final String PATH = "process.fxml";
 
     private final ProcessInteractor interactor;
@@ -42,6 +42,8 @@ public final class ProcessView extends BaseView {
     private TableColumn<ProcessingFile, String> tableColumnStatusMessage;
     @FXML
     private Button buttonStartProcess;
+    @FXML
+    private Button buttonCancel;
 
     public ProcessView(ProcessInteractor interactor) {
         super(PATH, TITLE);
@@ -53,11 +55,12 @@ public final class ProcessView extends BaseView {
         this.initializeLabels();
         this.initializeFileTable();
 
-        buttonStartProcess.setOnAction(event -> this.interactor.handleStartProcess());
-
         if (this.interactor.getProcesibledFilesSize() > 1) {
             buttonStartProcess.setDisable(false);
         }
+
+        buttonStartProcess.setOnAction(event -> this.interactor.handleStartProcess());
+        buttonCancel.setOnAction(event -> this.interactor.handleCancel());
     }
 
     private void initializeLabels() {
