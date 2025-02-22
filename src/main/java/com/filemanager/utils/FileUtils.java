@@ -35,7 +35,7 @@ public class FileUtils {
             ProcessingFile processingFile = new ProcessingFile(file);
 
             if (!file.isFile()) {
-                processingFile.setStatus(FileStatus.UNPROCESSABLE, "Item is not a file.");
+                processingFile.setStatus(FileStatus.UNPROCESSABLE, "Item is not a file");
                 processedFiles.add(processingFile);
                 continue;
             }
@@ -43,7 +43,7 @@ public class FileUtils {
             Optional<Metadata> fileMetadata = FileUtils.getFileMetadata(file);
 
             if (fileMetadata.isEmpty()) {
-                processingFile.setStatus(FileStatus.UNPROCESSABLE, "Metadata are empty.");
+                processingFile.setStatus(FileStatus.UNPROCESSABLE, "Metadata are empty");
                 processedFiles.add(processingFile);
                 continue;
             }
@@ -84,14 +84,19 @@ public class FileUtils {
     public static List<ProcessingFile> applyStrategyFileValidation(List<ProcessingFile> files, RenameStrategy strategy) {
         files.forEach(file -> {
             if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileMetadata(file.getMetadata())) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match requirements for strategy : " + strategy.getClass().getSimpleName());
+                String fileStatus = "Metadata doesn't match requirements for strategy : " + strategy.getDisplayName().toLowerCase();
+                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
             }
         });
         return files;
     }
 
     public static List<ProcessingFile> getProcessableFiles(List<ProcessingFile> files) {
-        return files.stream().filter(file -> file.getStatus() == FileStatus.PROCESSABLE).toList();
+        return files.stream().filter(file
+                -> file.getStatus() == FileStatus.PROCESSABLE
+                || file.getStatus() == FileStatus.PROCESSING
+                || file.getStatus() == FileStatus.PROCESSED
+        ).toList();
     }
 
     public static List<ProcessingFile> getUnprocessableFiles(List<ProcessingFile> files) {

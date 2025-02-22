@@ -13,6 +13,13 @@ import com.filemanager.utils.FileUtils;
 
 class RenameRandomly implements RenameStrategy {
 
+    private final String displayName = "Rename randomly";
+
+    @Override
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
     @Override
     public Boolean validateFileMetadata(Metadata metadata) {
         if (metadata == null) {
@@ -30,14 +37,15 @@ class RenameRandomly implements RenameStrategy {
             Optional<String> rawExtension = FileUtils.getFileExtension(file.getMetadata());
 
             if (rawExtension.isEmpty()) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Metadata doesn't match strategy requirements.");
+                String fileStatus = "Metadata doesn't match requirements for strategy : " + this.getDisplayName().toLowerCase();
+                file.setStatus(FileStatus.UNPROCESSABLE, fileStatus);
                 return;
             }
 
             File parentDir = file.getParentDir();
 
             if (parentDir == null) {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Parent directory is invalid.");
+                file.setStatus(FileStatus.UNPROCESSABLE, "Parent directory is invalid");
                 return;
             }
 
@@ -53,13 +61,11 @@ class RenameRandomly implements RenameStrategy {
 
             if (file.getFile().renameTo(newFile)) {
                 file.setFile(newFile);
-                file.setStatus(prePreprocess ? FileStatus.PROCESSING : FileStatus.PROCESSED, "Renamed to randomly");
+                file.setStatus(prePreprocess ? FileStatus.PROCESSING : FileStatus.PROCESSED, "Renamed randomly");
             } else {
-                file.setStatus(FileStatus.UNPROCESSABLE, "Failed to rename file.");
+                file.setStatus(FileStatus.UNPROCESSABLE, "Failed to rename file");
             }
         });
-
-        System.out.println("✅ RenameRandomly final file count: " + files.size());
 
         return files;
     }

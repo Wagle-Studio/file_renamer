@@ -3,6 +3,7 @@ package com.filemanager.gui.views;
 import com.filemanager.gui.interactors.ProcessInteractor;
 import com.filemanager.models.ProcessingFile;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,9 +19,17 @@ public final class ProcessView extends BaseView {
     private final ProcessInteractor interactor;
 
     @FXML
-    private Label labelStrategy;
+    private Label labelTaskStrategy;
+    @FXML
+    private Label labelTaskStatusMessage;
     @FXML
     private Label labelFolderPath;
+    @FXML
+    private Label labelProcessedFiles;
+    @FXML
+    private Label labelProcessibleFiles;
+    @FXML
+    private Label labelUnprocessibleFiles;
     @FXML
     private TableView<ProcessingFile> tableViewFile;
     @FXML
@@ -41,17 +50,34 @@ public final class ProcessView extends BaseView {
 
     @Override
     public void build() {
-        labelStrategy.setText(this.interactor.getStrategy());
-        labelFolderPath.setText(this.interactor.getFolderPath());
+        this.initializeLabels();
         this.initializeFileTable();
+
         buttonStartProcess.setOnAction(event -> this.interactor.handleStartProcess());
+
+        if (this.interactor.getProcesibledFilesSize() > 1) {
+            buttonStartProcess.setDisable(false);
+        }
+    }
+
+    private void initializeLabels() {
+        labelTaskStrategy.setText(this.interactor.getTaskStrategy());
+        labelTaskStatusMessage.textProperty().bind(this.interactor.getTaskStatusMessage());
+        labelFolderPath.setText(this.interactor.getFolderPath());
+        labelProcessedFiles.setText(this.buildFilesSizeLabel(this.interactor.getAllFilesSize(), "analysed"));
+        labelProcessibleFiles.setText(this.buildFilesSizeLabel(this.interactor.getProcesibledFilesSize(), "processable"));
+        labelUnprocessibleFiles.setText(this.buildFilesSizeLabel(this.interactor.getUnprocesibledFilesSize(), "unprocessable"));
+    }
+
+    private String buildFilesSizeLabel(Integer filesSize, String filesType) {
+        return String.join(" ", Integer.toString(filesSize), filesType, filesSize > 1 ? "files" : "file");
     }
 
     private void initializeFileTable() {
         tableColumnInitialName.setCellValueFactory(new PropertyValueFactory<>("originalName"));
         tableColumnNewName.setCellValueFactory(new PropertyValueFactory<>("currentName"));
-        tableColumnStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        tableColumnStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().getDisplayValue()));
         tableColumnStatusMessage.setCellValueFactory(new PropertyValueFactory<>("statusMessage"));
-        tableViewFile.setItems(this.interactor.getProcessedFiles());
+        tableViewFile.itemsProperty().bind(this.interactor.getAllFiles());
     }
 }
