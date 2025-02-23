@@ -4,6 +4,7 @@ import com.filemanager.core.Injector;
 import com.filemanager.core.ViewManager;
 import com.filemanager.gui.controllers.MainController;
 
+import atlantafx.base.theme.PrimerLight;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,7 +18,10 @@ public final class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
         screenManager.setStage(primaryStage);
-        new MainController();
+        
+        @SuppressWarnings("unused")
+        MainController controller = new MainController();
     }
 }

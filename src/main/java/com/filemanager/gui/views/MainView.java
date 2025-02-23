@@ -14,6 +14,8 @@ public final class MainView extends BaseView {
     public static final String TITLE = "FileManager";
     public static final String PATH = "main.fxml";
     private final MainInteractor interactor;
+    private final StrategyChoice placeholder = new StrategyChoice("Then, select a Strategy", null);
+    private boolean isFolderSelected = false;
 
     @FXML
     private Button buttonSelectFolder;
@@ -41,19 +43,42 @@ public final class MainView extends BaseView {
     private void handleFileSearch() {
         Window window = buttonSelectFolder.getScene().getWindow();
         this.interactor.handleFileSearch(window);
-        labelSelectedFolderPath.setVisible(true);
-        labelSelectedFolderPath.setText(this.interactor.getSelectedFolder());
+
+        String selectedFolder = this.interactor.getSelectedFolder();
+        if (selectedFolder != null && !selectedFolder.isEmpty()) {
+            this.isFolderSelected = true;
+            labelSelectedFolderPath.setVisible(true);
+            labelSelectedFolderPath.setText(selectedFolder);
+        } else {
+            this.isFolderSelected = false;
+            labelSelectedFolderPath.setVisible(false);
+        }
+
+        updateStartButtonState();
     }
 
     private void initializeStrategyChoiceBox() {
+        this.choiceBoxSelectStrategy.getItems().add(this.placeholder);
         this.choiceBoxSelectStrategy.getItems().addAll(this.interactor.getStrategyChoices());
+        this.choiceBoxSelectStrategy.getSelectionModel().select(this.placeholder);
+        buttonStartAnalyse.setDisable(true);
 
         choiceBoxSelectStrategy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            this.interactor.handleStrategyChoice(newValue);
-            buttonStartAnalyse.setDisable(false);
-            labelTaskStrategy.setVisible(true);
-            labelTaskStrategy.setText(this.interactor.getSelectedStrategy());
+            if (newValue != null && !newValue.equals(this.placeholder)) {
+                this.interactor.handleStrategyChoice(newValue);
+                labelTaskStrategy.setVisible(true);
+                labelTaskStrategy.setText(this.interactor.getSelectedStrategy());
+            } else {
+                labelTaskStrategy.setVisible(false);
+            }
+
+            updateStartButtonState();
         });
+    }
+
+    private void updateStartButtonState() {
+        boolean isStrategySelected = !choiceBoxSelectStrategy.getSelectionModel().getSelectedItem().equals(this.placeholder);
+        buttonStartAnalyse.setDisable(!(this.isFolderSelected && isStrategySelected));
     }
 
     private void handleStartAnalyse() {

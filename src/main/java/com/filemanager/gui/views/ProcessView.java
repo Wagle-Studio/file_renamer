@@ -8,10 +8,12 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -55,6 +57,8 @@ public final class ProcessView extends BaseView {
     private Button buttonStartProcess;
     @FXML
     private Button buttonCancel;
+    @FXML
+    private ProgressBar progressBar;
 
     public ProcessView(ProcessInteractor interactor) {
         super(PATH, TITLE);
@@ -66,15 +70,16 @@ public final class ProcessView extends BaseView {
         this.initializeLabels();
         this.initializeFileTable();
 
-        if (this.interactor.getProcessableFilesSize() > 1) {
+        if (this.interactor.getProcessableFilesSize() > 0) {
             buttonStartProcess.setDisable(false);
         }
 
         this.interactor.getAllFiles().addListener((obs, oldList, newList) -> updateDisplayedFiles());
 
         checkBoxHideUnprocessableFiles.setOnAction(event -> handleHideUnprocessableFiles());
-        buttonStartProcess.setOnAction(event -> this.interactor.handleStartProcess());
+        buttonStartProcess.setOnAction(event -> this.handleStartProcess());
         buttonCancel.setOnAction(event -> this.interactor.handleCancel());
+        progressBar.setProgress(0);
 
         updateDisplayedFiles();
     }
@@ -86,7 +91,7 @@ public final class ProcessView extends BaseView {
         labelProcessedFiles.setText(this.buildFilesSizeLabel(this.interactor.getAllFilesSize(), "analysed", "file"));
         labelProcessableFiles.setText(this.buildFilesSizeLabel(this.interactor.getProcessableFilesSize(), "processable", "file"));
         labelUnprocessableFiles.setText(this.buildFilesSizeLabel(this.interactor.getUnprocessableFilesSize(), "unprocessable", "file"));
-        labelDisplayedFiles.textProperty().bind(this.displayedFiles.sizeProperty().asString().concat(" items"));
+        labelDisplayedFiles.textProperty().bind(this.displayedFiles.sizeProperty().asString());
     }
 
     private String buildFilesSizeLabel(Integer filesSize, String filesType, String suffix) {
@@ -116,5 +121,31 @@ public final class ProcessView extends BaseView {
         } else {
             this.displayedFiles.setAll(this.interactor.getAllFiles());
         }
+    }
+
+    private void handleStartProcess() {
+        progressBar.setVisible(true);
+        progressBar.setMinHeight(7);
+        Task<Void> task = getFakeTaskForProgressBar(() -> this.interactor.handleStartProcess());
+        new Thread(task).start();
+        progressBar.progressProperty().bind(task.progressProperty());
+    }
+
+    private Task getFakeTaskForProgressBar(Runnable onFakeTaskEnding) {
+        return new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                int steps = 100;
+                for (int i = 0; i <= steps; i++) {
+                    Thread.sleep(5);
+                    updateProgress(i, steps);
+
+                    if (i == 90) {
+                        onFakeTaskEnding.run();
+                    }
+                }
+                return null;
+            }
+        };
     }
 }
