@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="24.0" style="-fx-background-color: #f9fbfd;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <HBox>
+         <children>
+            <VBox spacing="12.0">
+               <children>
+                  <Label styleClass="title-1" text="File Renamer" />
+                  <Label styleClass="title-4" text="A simple way to batch rename files" />
+               </children>
+            </VBox>
+            <HBox alignment="BOTTOM_RIGHT" minHeight="-Infinity" prefHeight="68.0" prefWidth="843.0" spacing="12.0">
+               <children>
+                  <Button disable="true" mnemonicParsing="false" text="Previous stape">
+                     <styleClass>
+                        <String fx:value="accent" />
+                        <String fx:value="text-bold" />
+                     </styleClass>
+                  </Button>
+                  <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Select strategy">
+                     <styleClass>
+                        <String fx:value="accent" />
+                        <String fx:value="text-bold" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="560.0" prefWidth="1152.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="560.0" prefWidth="556.0" style="-fx-background-color: #fcfcfc; -fx-border-color: #3f6ec6; -fx-border-width: 2px; -fx-border-radius: 3px;">
+               <children>
+                  <Label text="Drag and drop a folder or click to select" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+   </padding>
+</VBox>
