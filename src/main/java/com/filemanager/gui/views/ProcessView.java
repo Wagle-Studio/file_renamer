@@ -2,6 +2,7 @@ package com.filemanager.gui.views;
 
 import com.filemanager.gui.interactors.ProcessInteractor;
 import com.filemanager.models.ProcessingFile;
+import com.filemanager.services.renaming.enums.FileExtension;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -30,12 +31,10 @@ public final class ProcessView extends BaseView {
     private Label labelFolderPath;
     @FXML
     private Label labelProcessedFiles;
-
     @FXML
     private Label labelProcessableFiles;
     @FXML
     private Label labelUnprocessableFiles;
-
     @FXML
     private Label labelDisplayedFiles;
     @FXML
@@ -44,6 +43,8 @@ public final class ProcessView extends BaseView {
     private TableView<ProcessingFile> tableViewFile;
     @FXML
     private TableColumn<ProcessingFile, String> tableColumnInitialName;
+    @FXML
+    private TableColumn<ProcessingFile, String> tableColumnExtension;
     @FXML
     private TableColumn<ProcessingFile, String> tableColumnNewName;
     @FXML
@@ -94,6 +95,7 @@ public final class ProcessView extends BaseView {
 
     private void initializeFileTable() {
         tableColumnInitialName.setCellValueFactory(new PropertyValueFactory<>("originalName"));
+        tableColumnExtension.setCellValueFactory(cellData -> new SimpleStringProperty(this.interactor.getFileExtension(cellData.getValue().getFile()).map(FileExtension::toString).orElse("unknown")));
         tableColumnNewName.setCellValueFactory(new PropertyValueFactory<>("currentName"));
         tableColumnStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus().getDisplayValue()));
         tableColumnStatusMessage.setCellValueFactory(new PropertyValueFactory<>("statusMessage"));

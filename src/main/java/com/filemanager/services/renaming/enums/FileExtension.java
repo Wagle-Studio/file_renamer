@@ -11,4 +11,9 @@ public enum FileExtension {
                 .filter(ext -> ext.name().equalsIgnoreCase(extension))
                 .findFirst();
     }
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 }

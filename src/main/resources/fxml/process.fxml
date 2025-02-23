@@ -78,10 +78,11 @@
             </HBox>
             <TableView fx:id="tableViewFile" maxHeight="-Infinity" prefHeight="676.0" prefWidth="1200.0" style="-fx-background-color: #fcfcfc;">
                <columns>
-                  <TableColumn fx:id="tableColumnStatus" minWidth="5.0" prefWidth="197.0" text="Status" />
-                  <TableColumn fx:id="tableColumnInitialName" prefWidth="163.0" text="Current name" />
-                  <TableColumn fx:id="tableColumnNewName" prefWidth="163.0" text="New name" />
-                  <TableColumn fx:id="tableColumnStatusMessage" minWidth="5.0" prefWidth="494.0" text="Status message" />
+                  <TableColumn fx:id="tableColumnStatus" minWidth="5.0" prefWidth="150.0" text="Status" />
+                  <TableColumn fx:id="tableColumnExtension" prefWidth="104.0" text="Extension" />
+                  <TableColumn fx:id="tableColumnInitialName" prefWidth="210.0" text="Current name" />
+                  <TableColumn fx:id="tableColumnNewName" prefWidth="210.0" text="New name" />
+                  <TableColumn fx:id="tableColumnStatusMessage" minWidth="5.0" prefWidth="450.0" text="Status message" />
                </columns>
             </TableView>
             <HBox alignment="CENTER_RIGHT">

@@ -1,9 +1,13 @@
 package com.filemanager.gui.interactors;
 
+import java.io.File;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.ProcessingTask;
+import com.filemanager.services.renaming.enums.FileExtension;
+import com.filemanager.utils.FileUtils;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -67,6 +71,10 @@ public final class ProcessInteractor {
 
     public Integer getUnprocessableFilesSize() {
         return this.task.getUnprocessableFiles().size();
+    }
+
+    public Optional<FileExtension> getFileExtension(File file) {
+        return FileUtils.getFileExtension(file);
     }
 
     public void handleStartProcess() {
