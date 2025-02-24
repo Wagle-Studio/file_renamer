@@ -8,6 +8,7 @@ import com.filemanager.gui.models.StrategyChoice;
 import com.filemanager.models.ProcessingTask;
 import com.filemanager.services.renaming.RenameStrategy;
 import com.filemanager.services.renaming.RenameStrategyFactory;
+import com.filemanager.services.renaming.enums.FileExtension;
 import com.filemanager.services.renaming.enums.StrategyType;
 
 import javafx.collections.FXCollections;
@@ -57,6 +58,26 @@ public final class MainInteractor {
 
     public String getSelectedStrategy() {
         return this.task.getStrategy().getDisplayName();
+    }
+
+    public FileExtension[] getExtensionChoices() {
+        return FileExtension.values();
+    }
+
+    public void handleExtensionChoice(List<FileExtension> extensions) {
+        this.task.setExtensions(extensions);
+    }
+
+    public List<FileExtension> getSelectedExtensions() {
+        return this.task.getExtensions();
+    }
+
+    public Boolean analysisRequirementsAreValid() {
+        Boolean validPathFolder = this.task.getFolderPath() != null;
+        Boolean validStrategy = this.task.getStrategy() != null;
+        Boolean validExtensions = !this.task.getExtensions().isEmpty();
+
+        return (validPathFolder && validStrategy && validExtensions);
     }
 
     public void handleStartAnalyse() {

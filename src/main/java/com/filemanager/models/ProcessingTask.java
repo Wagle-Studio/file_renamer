@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.filemanager.models.enums.TaskStatus;
 import com.filemanager.services.renaming.RenameStrategy;
+import com.filemanager.services.renaming.enums.FileExtension;
 
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.ObjectProperty;
@@ -18,6 +19,7 @@ public class ProcessingTask {
 
     private final StringProperty folderPath = new SimpleStringProperty();
     private final ObjectProperty<RenameStrategy> strategy = new SimpleObjectProperty<>();
+    private final ListProperty<FileExtension> extensions = new SimpleListProperty<>(FXCollections.observableArrayList());
     private final ObjectProperty<TaskStatus> status = new SimpleObjectProperty<>(TaskStatus.UNDEFINED);
     private final StringProperty statusMessage = new SimpleStringProperty();
     private final ListProperty<ProcessingFile> processableFiles = new SimpleListProperty<>(FXCollections.observableArrayList());
@@ -43,12 +45,24 @@ public class ProcessingTask {
         return this.strategy.get();
     }
 
-    public ObjectProperty<TaskStatus> getStatusProperty() {
-        return this.status;
-    }
-
     public void setStrategy(RenameStrategy strategy) {
         this.strategy.set(strategy);
+    }
+
+    public ListProperty<FileExtension> getExtensionsProperty() {
+        return this.extensions;
+    }
+
+    public ObservableList getExtensions() {
+        return this.extensions.get();
+    }
+
+    public void setExtensions(List<FileExtension> extensions) {
+        this.extensions.setAll(extensions);
+    }
+
+    public ObjectProperty<TaskStatus> getStatusProperty() {
+        return this.status;
     }
 
     public TaskStatus getStatus() {

@@ -19,8 +19,6 @@ public final class MainView extends BaseView {
     public static final String TITLE = "FileManager";
     public static final String PATH = "main.fxml";
     private final MainInteractor interactor;
-    private final StrategyChoice strategyPlaceholder = new StrategyChoice("Select a treatment for you files", null);
-    private boolean isFolderSelected = false;
 
     @FXML
     private VBox dropBox;
@@ -49,15 +47,12 @@ public final class MainView extends BaseView {
     private void handleFileSearch() {
         Window window = dropBox.getScene().getWindow();
         this.interactor.handleFileSearch(window);
-
         String selectedFolder = this.interactor.getSelectedFolder();
 
         if (selectedFolder != null && !selectedFolder.isEmpty()) {
-            this.isFolderSelected = true;
             labelSelectedFolderPath.setVisible(true);
             labelSelectedFolderPath.setText(selectedFolder);
         } else {
-            this.isFolderSelected = false;
             labelSelectedFolderPath.setVisible(false);
         }
 
@@ -65,35 +60,39 @@ public final class MainView extends BaseView {
     }
 
     private void initializeStrategyChoiceBox() {
-        choiceBoxSelectStrategy.getItems().add(this.strategyPlaceholder);
+        StrategyChoice strategyPlaceholder = new StrategyChoice("Select a treatment for you files", null);
+
+        choiceBoxSelectStrategy.getItems().add(strategyPlaceholder);
         choiceBoxSelectStrategy.getItems().addAll(this.interactor.getStrategyChoices());
-        choiceBoxSelectStrategy.getSelectionModel().select(this.strategyPlaceholder);
+        choiceBoxSelectStrategy.getSelectionModel().select(strategyPlaceholder);
 
         choiceBoxSelectStrategy.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.equals(this.strategyPlaceholder)) {
+            if (!newValue.equals(strategyPlaceholder)) {
                 this.interactor.handleStrategyChoice(newValue);
             } else {
                 this.interactor.resetStrategyChoice();
             }
+
             updateStartButtonState();
         });
     }
 
     private void initializeExtensionComboBox() {
-        comboBoxSelectedExtensions.getItems().addAll(FileExtension.values());
+        comboBoxSelectedExtensions.getItems().addAll(this.interactor.getExtensionChoices());
 
         comboBoxSelectedExtensions.getCheckModel().getCheckedItems().addListener((ListChangeListener<FileExtension>) change -> {
             while (change.next()) {
                 if (change.wasAdded() || change.wasRemoved()) {
-                    System.out.println("Extensions sélectionnées : " + comboBoxSelectedExtensions.getCheckModel().getCheckedItems());
+                    this.interactor.handleExtensionChoice(comboBoxSelectedExtensions.getCheckModel().getCheckedItems());
                 }
             }
+
+            updateStartButtonState();
         });
     }
 
     private void updateStartButtonState() {
-        boolean isStrategySelected = !choiceBoxSelectStrategy.getSelectionModel().getSelectedItem().equals(this.strategyPlaceholder);
-        buttonStartAnalyse.setDisable(!(this.isFolderSelected && isStrategySelected));
+        buttonStartAnalyse.setDisable(!(this.interactor.analysisRequirementsAreValid()));
     }
 
     private void handleStartAnalyse() {
