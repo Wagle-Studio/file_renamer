@@ -41,14 +41,18 @@ public final class MainInteractor {
 
     public List<StrategyChoice> getStrategyChoices() {
         return FXCollections.observableArrayList(
-                new StrategyChoice("Rename with a random name", StrategyType.RANDOM),
-                new StrategyChoice("Rename by original date", StrategyType.BY_DATE)
+                new StrategyChoice("Rename with a random name (UUID)", StrategyType.RANDOM),
+                new StrategyChoice("Rename by original creation date", StrategyType.BY_DATE)
         );
     }
 
     public void handleStrategyChoice(StrategyChoice choice) {
         RenameStrategy strategy = RenameStrategyFactory.getStrategy(choice.getValue());
         this.task.setStrategy(strategy);
+    }
+
+    public void resetStrategyChoice() {
+        this.task.setStrategy(null);
     }
 
     public String getSelectedStrategy() {

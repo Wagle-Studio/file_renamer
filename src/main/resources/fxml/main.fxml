@@ -4,63 +4,72 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="24.0" style="-fx-background-color: #f9fbfd;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<?import org.controlsfx.control.CheckComboBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" spacing="48.0" style="-fx-background-color: #f9fbfd;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox>
-         <children>
-            <VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="48.0" prefWidth="540.0" spacing="12.0">
-               <children>
-                  <HBox spacing="12.0">
-                     <children>
-                        <Label text="Task : " />
-                        <Label fx:id="labelTaskStrategy" layoutX="10.0" layoutY="10.0" text="Rename by Date" visible="false" />
-                     </children>
-                  </HBox>
-                  <HBox layoutX="34.0" layoutY="22.0" spacing="12.0">
-                     <children>
-                        <Label text="Folder path :" />
-                        <Label fx:id="labelSelectedFolderPath" text="/home/example/documents/2020_winter" visible="false" />
-                     </children>
-                  </HBox>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-            <VBox alignment="TOP_RIGHT" minHeight="-Infinity" minWidth="-Infinity" prefWidth="612.0">
-               <children>
-                  <Button fx:id="buttonStartAnalyse" disable="true" mnemonicParsing="false" text="Analyse Folder">
-                     <styleClass>
-                        <String fx:value="accent" />
-                        <String fx:value="text-bold" />
-                     </styleClass></Button>
-               </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </VBox>
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </HBox>
-      <VBox alignment="CENTER" prefHeight="380.0" prefWidth="1200.0" spacing="48.0">
+      <VBox spacing="12.0">
          <children>
             <Label styleClass="title-1" text="File Renamer" />
-            <Button fx:id="buttonSelectFolder" mnemonicParsing="false" text="Start by Select a Folder">
-               <styleClass>
-                  <String fx:value="accent" />
-                  <String fx:value="button-outlined" />
-                  <String fx:value="text-bold" />
-               </styleClass>
-            </Button>
-            <ChoiceBox fx:id="choiceBoxSelectStrategy" prefHeight="34.0" prefWidth="228.0" />
+            <Label styleClass="title-4" text="A simple way to batch rename files" />
          </children>
       </VBox>
+      <HBox prefHeight="560.0" prefWidth="1152.0" spacing="48.0">
+         <children>
+            <VBox fx:id="dropBox" alignment="CENTER" prefHeight="560.0" prefWidth="556.0" spacing="24.0" style="-fx-background-color: #fcfcfc; -fx-border-color: #3f6ec6; -fx-border-width: 2px; -fx-border-radius: 3px;">
+               <children>
+                  <Label text="Drag and drop a folder or click to select">
+                     <styleClass>
+                        <String fx:value="title-4" />
+                        <String fx:value="text-bold" />
+                     </styleClass></Label>
+                  <Label fx:id="labelSelectedFolderPath" layoutX="113.0" layoutY="268.0" styleClass="title-4" text="/home/user/documents/pictures_2020" visible="false" />
+               </children>
+            </VBox>
+            <VBox prefHeight="560.0" prefWidth="550.0" spacing="64.0">
+               <children>
+                  <VBox spacing="24.0">
+                     <children>
+                        <Label text="Select a treatment to apply ">
+                           <styleClass>
+                              <String fx:value="title-4" />
+                              <String fx:value="text-bold" />
+                           </styleClass>
+                        </Label>
+                        <ChoiceBox fx:id="choiceBoxSelectStrategy" prefHeight="34.0" prefWidth="550.0" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="10.0" layoutY="10.0" spacing="24.0">
+                     <children>
+                        <Label text="Select file extensions to target">
+                           <styleClass>
+                              <String fx:value="title-4" />
+                              <String fx:value="text-bold" />
+                           </styleClass>
+                        </Label>
+                        <CheckComboBox fx:id="comboBoxSelectedExtensions" prefHeight="34.0" prefWidth="550.0" />
+                        <!-- <ComboBox fx:id="comboBoxSelectedExtensions" prefHeight="34.0" prefWidth="550.0" /> -->
+                     </children>
+                  </VBox>
+                  <VBox alignment="BOTTOM_LEFT" prefHeight="282.0" prefWidth="549.0">
+                     <children>
+                        <Button fx:id="buttonStartAnalyse" disable="true" mnemonicParsing="false" prefHeight="34.0" prefWidth="550.0" text="Start analyse">
+                           <styleClass>
+                              <String fx:value="accent" />
+                              <String fx:value="text-bold" />
+                           </styleClass>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
    </children>
    <padding>
       <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
