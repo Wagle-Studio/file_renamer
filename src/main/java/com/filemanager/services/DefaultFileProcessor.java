@@ -29,7 +29,14 @@ public class DefaultFileProcessor implements FileProcessor {
             return;
         }
 
-        List<ProcessingFile> processingFiles = FileUtils.applyStrategyFileValidation(processedFiles, task.getStrategy());
+        List<ProcessingFile> filteredFiles = FileUtils.applyFilterByExtension(processedFiles, task.getExtensions());
+
+        if (filteredFiles.isEmpty()) {
+            task.setStatus(TaskStatus.ERROR, "No files matching selected extensions");
+            return;
+        }
+
+        List<ProcessingFile> processingFiles = FileUtils.applyStrategyFileValidation(filteredFiles, task.getStrategy());
 
         for (RenameStrategy preStrategy : task.getStrategy().getStrategyPreprocess()) {
             processingFiles = FileUtils.applyStrategyFileValidation(processingFiles, preStrategy);

@@ -122,6 +122,23 @@ public class FileUtils {
         return Optional.of(FileUtils.formatDate(originalDate));
     }
 
+    public static List<ProcessingFile> applyFilterByExtension(List<ProcessingFile> files, List<FileExtension> extensions) {
+        files.forEach(file -> {
+            if (file.getStatus() != FileStatus.UNPROCESSABLE) {
+                Optional<FileExtension> fileExtension = FileUtils.getFileExtension(file.getFile());
+
+                if (fileExtension.isEmpty()) {
+                    file.setStatus(FileStatus.UNPROCESSABLE, "Undefined file extension");
+                }
+
+                if (fileExtension.isPresent() && !extensions.contains(fileExtension.get())) {
+                    file.setStatus(FileStatus.UNAFFECTED, "Not affected by the treatment");
+                }
+            }
+        });
+        return files;
+    }
+
     public static List<ProcessingFile> applyStrategyFileValidation(List<ProcessingFile> files, RenameStrategy strategy) {
         files.forEach(file -> {
             if (file.getStatus() == FileStatus.PROCESSABLE && !strategy.validateFileRequirements(file)) {
@@ -141,7 +158,11 @@ public class FileUtils {
     }
 
     public static List<ProcessingFile> getUnprocessableFiles(List<ProcessingFile> files) {
-        return files.stream().filter(file -> file.getStatus() == FileStatus.UNPROCESSABLE || file.getStatus() == FileStatus.UNDEFINED).toList();
+        return files.stream().filter(file
+                -> file.getStatus() == FileStatus.UNPROCESSABLE
+                || file.getStatus() == FileStatus.UNDEFINED
+                || file.getStatus() == FileStatus.UNAFFECTED
+        ).toList();
     }
 
     public static String formatDate(Date date) {

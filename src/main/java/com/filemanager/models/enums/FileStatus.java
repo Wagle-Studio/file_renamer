@@ -2,6 +2,7 @@ package com.filemanager.models.enums;
 
 public enum FileStatus {
     UNDEFINED("Undefined"),
+    UNAFFECTED("Unaffected"),
     UNPROCESSABLE("Unprocessable"),
     PROCESSABLE("Processable"),
     PROCESSING("Processing"),
