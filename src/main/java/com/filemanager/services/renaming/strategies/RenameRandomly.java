@@ -7,11 +7,11 @@ import java.util.UUID;
 
 import com.filemanager.models.ProcessingFile;
 import com.filemanager.models.enums.FileStatus;
-import com.filemanager.services.renaming.RenameStrategy;
+import com.filemanager.services.renaming.BaseRenameStrategy;
 import com.filemanager.services.renaming.enums.FileExtension;
 import com.filemanager.utils.FileUtils;
 
-public class RenameRandomly implements RenameStrategy {
+public class RenameRandomly extends BaseRenameStrategy {
 
     private final String displayName = "Rename randomly";
 
@@ -24,7 +24,7 @@ public class RenameRandomly implements RenameStrategy {
     public Boolean validateFileRequirements(ProcessingFile file) {
         File parentDir = file.getParentDir();
 
-        if (parentDir == null) {
+        if (parentDir == null || !parentDir.exists() || !parentDir.isDirectory()) {
             return false;
         }
 
