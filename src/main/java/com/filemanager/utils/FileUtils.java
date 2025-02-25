@@ -57,6 +57,19 @@ public class FileUtils {
         }
     }
 
+    public static Optional<String> getFileName(File file) {
+        String fileNameWithExtension = file.getName();
+        int lastDotIndex = fileNameWithExtension.lastIndexOf(".");
+
+        if (lastDotIndex <= 0 || lastDotIndex == fileNameWithExtension.length() - 1) {
+            return Optional.empty();
+        }
+
+        String fileName = fileNameWithExtension.substring(0, lastDotIndex).toUpperCase();
+
+        return Optional.of(fileName);
+    }
+
     public static Optional<FileExtension> getFileExtension(File file) {
         Optional<FileExtension> extension = FileUtils.getFileExtensionByFile(file);
 
@@ -78,18 +91,14 @@ public class FileUtils {
     }
 
     public static Optional<FileExtension> getFileExtensionByFile(File file) {
-        if (file == null || !file.isFile()) {
+        String fileNameWithExtension = file.getName();
+        int lastDotIndex = fileNameWithExtension.lastIndexOf(".");
+
+        if (lastDotIndex <= 0 || lastDotIndex == fileNameWithExtension.length() - 1) {
             return Optional.empty();
         }
 
-        String fileName = file.getName();
-        int lastDotIndex = fileName.lastIndexOf(".");
-
-        if (lastDotIndex <= 0 || lastDotIndex == fileName.length() - 1) {
-            return Optional.empty();
-        }
-
-        String extension = fileName.substring(lastDotIndex + 1).toUpperCase();
+        String extension = fileNameWithExtension.substring(lastDotIndex + 1).toUpperCase();
 
         return FileExtension.fromString(extension);
     }
