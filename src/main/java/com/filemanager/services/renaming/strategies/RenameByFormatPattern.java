@@ -17,6 +17,7 @@ import com.filemanager.utils.FileUtils;
 public class RenameByFormatPattern extends BaseRenameStrategyWithParams {
 
     private final String displayName = "Rename by format pattern";
+    private FormatPattern formatPattern;
 
     @Override
     public String getDisplayName() {
@@ -134,5 +135,13 @@ public class RenameByFormatPattern extends BaseRenameStrategyWithParams {
 
     private String capitalizeFirstLetter(String str) {
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+    }
+
+    public FormatPattern getFormatPattern() {
+        return this.formatPattern;
+    }
+
+    public void setFormatPattern(FormatPattern formatPattern) {
+        this.formatPattern = formatPattern;
     }
 }

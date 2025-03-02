@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
@@ -53,6 +54,17 @@
                            </styleClass>
                         </Label>
                         <ChoiceBox fx:id="choiceBoxSelectFormatPattern" prefHeight="34.0" prefWidth="550.0" />
+                     </children>
+                  </VBox>
+                  <VBox fx:id="fieldFileName" layoutX="10.0" layoutY="153.0" spacing="24.0" visible="false">
+                     <children>
+                        <Label text="Enter the name">
+                           <styleClass>
+                              <String fx:value="title-4" />
+                              <String fx:value="text-bold" />
+                           </styleClass>
+                        </Label>
+                        <TextField fx:id="inputFileName" />
                      </children>
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" spacing="24.0">

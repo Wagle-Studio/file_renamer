@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 
@@ -34,6 +35,10 @@ public final class MainView extends BaseView {
     @FXML
     private ChoiceBox<FormatPattern> choiceBoxSelectFormatPattern;
     @FXML
+    private VBox fieldFileName;
+    @FXML
+    private TextField inputFileName;
+    @FXML
     private Button buttonStartAnalyse;
 
     public MainView(MainInteractor interactor) {
@@ -46,6 +51,7 @@ public final class MainView extends BaseView {
         this.initializeStrategyChoiceBox();
         this.initializeExtensionComboBox();
         this.initializeFormatPatternChoiceBox();
+        this.initializeFileNameInput();
         dropBox.setOnMouseClicked(event -> this.handleFileSearch());
         buttonStartAnalyse.setOnAction(event -> this.handleStartAnalyse());
     }
@@ -79,7 +85,8 @@ public final class MainView extends BaseView {
                 this.interactor.resetStrategyChoice();
             }
 
-            updateFormatChoiceBox();
+            updateFieldFormatPattern();
+            updateFieldCustomFileName();
             updateStartButtonState();
         });
     }
@@ -99,6 +106,7 @@ public final class MainView extends BaseView {
     }
 
     private void initializeFormatPatternChoiceBox() {
+        fieldFormatPattern.managedProperty().bind(fieldFormatPattern.visibleProperty());
         choiceBoxSelectFormatPattern.getItems().addAll(this.interactor.getFormatPatternChoices());
 
         choiceBoxSelectFormatPattern.getSelectionModel().selectedItemProperty().addListener((observale, oldValue, newValue) -> {
@@ -106,8 +114,19 @@ public final class MainView extends BaseView {
         });
     }
 
-    private void updateFormatChoiceBox() {
+    private void initializeFileNameInput() {
+        fieldFileName.managedProperty().bind(fieldFileName.visibleProperty());
+        inputFileName.textProperty().addListener((observable, oldValue, newValue) -> {
+            this.interactor.handleCustomFileName(newValue);
+        });
+    }
+
+    private void updateFieldFormatPattern() {
         fieldFormatPattern.setVisible(this.interactor.strategyIsFormatByPattern());
+    }
+
+    private void updateFieldCustomFileName() {
+        fieldFileName.setVisible(this.interactor.strategyIsCustomByName());
     }
 
     private void updateStartButtonState() {

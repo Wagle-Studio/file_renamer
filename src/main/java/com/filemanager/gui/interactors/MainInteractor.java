@@ -6,11 +6,11 @@ import java.util.function.Consumer;
 
 import com.filemanager.gui.models.StrategyChoice;
 import com.filemanager.models.ProcessingTask;
-import com.filemanager.services.renaming.BaseRenameStrategyWithParams;
 import com.filemanager.services.renaming.RenameStrategyFactory;
 import com.filemanager.services.renaming.enums.FileExtension;
 import com.filemanager.services.renaming.enums.FormatPattern;
 import com.filemanager.services.renaming.enums.StrategyType;
+import com.filemanager.services.renaming.strategies.RenameByCustomName;
 import com.filemanager.services.renaming.strategies.RenameByFormatPattern;
 
 import javafx.collections.FXCollections;
@@ -46,7 +46,8 @@ public final class MainInteractor {
         return FXCollections.observableArrayList(
                 new StrategyChoice("Rename with a random name (UUID)", StrategyType.RANDOM),
                 new StrategyChoice("Rename by original creation date", StrategyType.BY_DATE),
-                new StrategyChoice("Rename with a defined format", StrategyType.BY_FORMAT_PATTERN)
+                new StrategyChoice("Rename with a defined format", StrategyType.BY_FORMAT_PATTERN),
+                new StrategyChoice("Rename with a custom name", StrategyType.BY_CUSTOM_NAME)
         );
     }
 
@@ -83,8 +84,18 @@ public final class MainInteractor {
     }
 
     public void handleFormatPatternChoice(FormatPattern formatPattern) {
-        if (this.task.getStrategy() instanceof BaseRenameStrategyWithParams strategy) {
+        if (this.task.getStrategy() instanceof RenameByFormatPattern strategy) {
             strategy.setFormatPattern(formatPattern);
+        }
+    }
+
+    public Boolean strategyIsCustomByName() {
+        return this.task.getStrategy() instanceof RenameByCustomName;
+    }
+
+    public void handleCustomFileName(String customFileName) {
+        if (this.task.getStrategy() instanceof RenameByCustomName strategy) {
+            strategy.setCustomFileName(customFileName);
         }
     }
 
